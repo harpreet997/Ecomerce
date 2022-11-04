@@ -1,0 +1,26 @@
+.card.text-black {
+    border: none;
+}
+.form-control{
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important ;
+}
+.order-lg-1 {
+    order: 1!important;
+    margin-left: 500px;
+    margin-top: 90px !important;
+}
+.text-center{
+    margin-left: 200px;
+}
+.form{
+    margin-right: 5px;
+}
+.loginbtn{
+    margin-right:0px;
+    width: 133px !important;
+}
+.remember{
+    margin-right: 233px;
+}
