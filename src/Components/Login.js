@@ -37,7 +37,7 @@ export default function Login() {
             }
           })
           .catch();
-          navigate("/manage-products");
+          navigate("/dashboard");
         handleReset();
       }
     } else {

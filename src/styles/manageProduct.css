@@ -17,7 +17,7 @@
   }
    
   .sidebar a.active {
-    background-color: #04AA6D;
+    background-color: darkblue;
     color: white;
   }
   
@@ -44,3 +44,9 @@
   .text-align{
     text-align: center;
   }
+
+  .border-bottom{
+    border-bottom: 1px solid black;
+    margin-left:0px;
+    margin-right:0px;
+}
