@@ -12,11 +12,11 @@ const Dashboard = () => {
             <Sidebar />
             <div className="content">
                 <div className="row mt-4 mb-4">
-                    <div className="col-lg-11">
+                    <div className="col-md-10 col-lg-11">
                         <input className="w-100" type="text" name="Search" placeholder='Search Products...'
                             />
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-md-2 col-lg-1">
                         <MdShoppingBag style={{ width: 50, height: 30 }} />
                     </div>
                 </div>
@@ -24,7 +24,7 @@ const Dashboard = () => {
                     <div className="card-body">
                         <h3>Product Details</h3>
                         <div className="row mt-5">
-                            <div className="col-lg-4">
+                            <div className="col-md-4">
                                 <div className='card'>
                                     <div className="card-body">
                                         <p className="fw-bold text-secondary">New Orders</p>
@@ -42,7 +42,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-md-4">
                                 <div className='card'>
                                     <div className="card-body">
                                         <p className="fw-bold text-secondary">Total Income</p>
@@ -60,7 +60,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-md-4">
                                 <div className='card'>
                                     <div className="card-body">
                                         <p className="fw-bold text-secondary">Total Expense</p>

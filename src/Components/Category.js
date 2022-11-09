@@ -5,12 +5,20 @@ import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { getAllCategory } from '../getData/getdata';
 import { addCategory } from '../postData/postdata';
+import Pagination from './Pagination';
 
 const Category = () => {
     const [categoryList, setCategoryList] = useState([]);
     const [categorydata, setCategoryData] = useState({ category: "" });
     const [categoryModal, setCategoryModal] = useState(false);
     const [searchProduct, setSearchProduct] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(10);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(categoryList.length / recordsPerPage)
+
     const handleCategory = () => setCategoryModal(true);
 
     let headers = {
@@ -57,21 +65,21 @@ const Category = () => {
 
             <div className="content">
                 <div className="row mt-4 mb-4">
-                    <div className="col-lg-11">
+                    <div className="col-md-10 col-lg-11">
                         <input className="w-100" type="text" name="Search" placeholder='Search Products...'
                             onChange={(e) => setSearchProduct(e.target.value)} />
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-md-2 col-lg-1">
                         <MdShoppingBag style={{ width: 50, height: 30 }} />
                     </div>
                 </div>
-                <div className="card">
+                <div className="card mb-4">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-10">
+                            <div className="col-xs-6 col-md-9 col-lg-10">
                                 <h4>Add Category</h4>
                             </div>
-                            <div className="col-lg-2">
+                            <div className="col-xs-6 col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 50 }} onClick={handleCategory} className="bg-warning bg-gradient">ADD MORE</Button>
                                 <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
                                     <Modal.Header closeButton>
@@ -96,19 +104,19 @@ const Category = () => {
                                 </Modal>
                             </div>
                         </div>
-                        <div className="card mt-5">
+                        <div className="card mt-5 mb-3">
                             <table>
                                 <div className="row border-bottom">
-                                    <div className="col-lg-4">
+                                    <div className="col-xs-6 col-sm-6 col-md-6">
                                         <h4>Category ID</h4>
                                     </div>
-                                    <div className="col-lg-8">
+                                    <div className="col-xs-6 col-sm-6 col-md-6">
                                         <h4>Category</h4>
                                     </div>
 
                                 </div>
                                 <div className="row mx-0">
-                                    {categoryList.filter((val) => {
+                                    {currentRecords.filter((val) => {
                                         if (searchProduct === "") {
                                             return val;
                                         }
@@ -118,11 +126,11 @@ const Category = () => {
                                     }).map((item, i) => {
                                         return (
                                             <>
-                                                <div className="col-lg-4">
-                                                    <p>{i + 1}</p>
+                                                <div className="col-xs-6 col-sm-6 col-md-6">
+                                                    <p>{item._id}</p>
                                                 </div>
 
-                                                <div className="col-lg-8">
+                                                <div className="col-xs-6 col-sm-6 col-md-6">
                                                     <p>{item.category}</p>
                                                 </div>
                                             </>
@@ -133,6 +141,11 @@ const Category = () => {
                                 </div>
                             </table>
                         </div>
+                        <Pagination
+                            nPages={nPages}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
                     </div>
 
                 </div>

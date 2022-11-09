@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Button, Modal } from "react-bootstrap";
 import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { getAllProducts, getAllCategory } from '../getData/getdata';
+import { addProduct } from '../postData/postdata';
+import Pagination from './Pagination';
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -21,11 +22,14 @@ const Product = () => {
         category: "",
         subcategory: ""
     })
-    const [image, setImage] = useState();
     const [productModal, setProductModal] = useState(false);
-    
-    const formdata = new FormData();
     const [searchProduct, setSearchProduct] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(10);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(data.length / recordsPerPage)
     const handleClose = () => setProductModal(false);
     const handleProduct = () => setProductModal(true);
 
@@ -52,7 +56,6 @@ const Product = () => {
 
     const handleCategorySelect = (event) => {
         const category = event.target.value;
-        console.log(category)
         setProductData({
             ...productdata,
             [event.target.name]: event.target.value
@@ -69,85 +72,56 @@ const Product = () => {
         })
     }
 
-    const handleImage = (e) => {
-        console.log(e.target.files[0]);
-        convertToBase64(e.target.files[0]);
-    };
-
-    const convertToBase64 = (selectedFile) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = () => {
-            console.log('called: ', reader.result);
-            setProductData({
-                ...productdata,
-                image: reader.result
-            })
-        };
-        
-    };
-
-    // const handleImage = (event) => {
-    //     console.log(event.target.files[0]);
-    //     setImage(URL.createObjectURL(event.target.files[0]))
-    //     console.log(URL.createObjectURL(event.target.files[0]))
-    //     //formdata.append("image", image);
-    //     setProductData({
-    //         ...productdata,
-    //         image: event.target.files[0]
-    //     })
-    //     console.log(event.target.files[0]);
-    //     console.log(productdata.image);
-    // }
+    const handleImage = (event) => {
+        setProductData({
+            ...productdata,
+            image: event.target.files[0]
+        })
+    }
 
     const AddProduct = (event) => {
         event.preventDefault();
-        console.log(productdata);
-        let payload = {
-            name: productdata.name,
-            price: productdata.price,
-            quantity: productdata.quantity,
-            image: productdata.image,
-            details: productdata.details,
-            specifications: productdata.specifications,
-            features: productdata.features,
-            category: productdata.category,
-            subcategory: productdata.subcategory
-        };
-        axios.post('http://localhost:3500/api/addProduct', payload, { headers }
-        )
+        const formdata = new FormData();
+        formdata.append('name', productdata.name)
+        formdata.append('price', productdata.price)
+        formdata.append('quantity', productdata.quantity)
+        formdata.append('features', productdata.features)
+        formdata.append('details', productdata.details)
+        formdata.append('specifications', productdata.specifications)
+        formdata.append('category', productdata.category)
+        formdata.append('subcategory', productdata.subcategory)
+        formdata.append('image', productdata.image)
+        
+        addProduct(formdata, headers)
             .then((response) => {
-                console.log(response);
                 alert(JSON.stringify(response.data.msg));
 
             })
             .catch((error) => {
                 console.log(error);
             })
-
     }
 
     return (
         <>
             <Sidebar />
-
             <div className="content">
                 <div className="row mt-4 mb-4">
-                    <div className="col-lg-11">
+                    <div className="col-md-10 col-lg-11">
                         <input className="w-100" type="text" name="Search" placeholder='Search Category...'
                             onChange={(e) => setSearchProduct(e.target.value)} />
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-md-2 col-lg-1">
                         <MdShoppingBag style={{ width: 50, height: 30 }} />
                     </div>
                 </div>
-                <div className="card">
+                <div className="card mb-4">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-10">
+                            <div className="col-md-9 col-lg-10">
                                 <h4>Add Product</h4>
                             </div>
-                            <div className="col-lg-2">
+                            <div className="col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 50 }} onClick={handleProduct} className="bg-warning bg-gradient">ADD MORE</Button>
                                 <Modal show={productModal} onHide={handleClose}>
                                     <Modal.Header closeButton>
@@ -213,24 +187,24 @@ const Product = () => {
                                 </Modal>
                             </div>
                         </div>
-                        <div className="card mt-5">
-                            <table>
+                        <div className="card mt-5 mb-3">
+                            
                                 <div className="row border-bottom">
 
-                                    <div className="col-lg-4">
+                                    <div className="col-sm-4">
                                         <h4>Product ID</h4>
                                     </div>
 
-                                    <div className="col-lg-4">
+                                    <div className="col-sm-4">
                                         <h4>Product Name</h4>
                                     </div>
-                                    <div className="col-lg-4">
+                                    <div className="col-sm-4">
                                         <h4>Product Price</h4>
                                     </div>
 
                                 </div>
                                 <div className="row mx-0">
-                                    {data.filter((val) => {
+                                    {currentRecords.filter((val) => {
                                         if (searchProduct === "") {
                                             return val;
                                         }
@@ -240,26 +214,28 @@ const Product = () => {
                                     }).map((item, i) => {
                                         return (
                                             <>
-                                                <div className="col-lg-4">
-                                                    <p>{i + 1}</p>
+                                                <div className="col-sm-4">
+                                                    <p>{item._id}</p>
                                                 </div>
 
-                                                <div className="col-lg-4">
+                                                <div className="col-sm-4">
                                                     <p>{item.name}</p>
 
                                                 </div>
-                                                <div className="col-lg-4">
+                                                <div className="col-sm-4">
                                                     <p>{item.price}</p>
 
                                                 </div>
                                             </>
                                         )
                                     })}
-
-
                                 </div>
-                            </table>
                         </div>
+                        <Pagination
+                            nPages={nPages}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
                     </div>
 
                 </div>

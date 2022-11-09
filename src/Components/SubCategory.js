@@ -67,21 +67,21 @@ const SubCategory = () => {
             <Sidebar />
             <div className="content">
                 <div className="row mt-4 mb-4">
-                    <div className="col-lg-11">
+                    <div className="col-md-10 col-lg-11">
                         <input className="w-100" type="text" name="Search" placeholder='Search Products...'
                             onChange={(e) => setSearchSubCategory(e.target.value)} />
                     </div>
-                    <div className="col-lg-1">
+                    <div className="col-md-2 col-lg-1">
                         <MdShoppingBag style={{ width: 50, height: 30 }} />
                     </div>
                 </div>
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-10">
+                            <div className="col-md-9 col-lg-10">
                                 <h4>Add Sub Category</h4>
                             </div>
-                            <div className="col-lg-2">
+                            <div className="col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 50 }} onClick={handleSubCategory} className="bg-warning bg-gradient">ADD MORE</Button>
                                 <Modal show={subCategoryModal} onHide={() => setSubCategoryModal(false)}>
                                     <Modal.Header closeButton>
