@@ -3,10 +3,10 @@ import { Button, Modal } from "react-bootstrap";
 import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
+import { BsSearch } from 'react-icons/bs';
 import { getAllCategory } from '../getData/getdata';
 import { addCategory } from '../postData/postdata';
 import Pagination from './Pagination';
-
 const Category = () => {
     const [categoryList, setCategoryList] = useState([]);
     const [categorydata, setCategoryData] = useState({ category: "" });
@@ -18,10 +18,6 @@ const Category = () => {
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
-
-    console.log(indexOfLastRecord);
-    console.log(indexOfFirstRecord);
-    console.log(currentRecords);
 
     const handleCategory = () => setCategoryModal(true);
 
@@ -47,20 +43,21 @@ const Category = () => {
 
     const AddCategory = (event) => {
         event.preventDefault();
+        let data = categoryList.find(v => (v.category === categorydata.category))
+        if(data)
+        {
+            alert("Category already exists");  
+        }
+        else {
         addCategory(categorydata, headers)
             .then((response) => {
-                if (response.data.msg === undefined) {
-                    alert("Category already exists");
-                }
-                else {
                     alert(JSON.stringify(response.data.msg));
                     window.location.reload(false);
-                }
             })
             .catch((error) => {
                 console.log(error);
             })
-
+        }
     }
 
     return (
@@ -70,11 +67,14 @@ const Category = () => {
             <div className="content">
                 <div className="row mt-4 mb-4">
                     <div className="col-md-10 col-lg-11">
-                        <input className="w-100" type="text" name="Search" placeholder='Search Products...'
+                        <input className="w-100 ps-3 search-input" type="text" name="Search"
+                            placeholder='Enter your Category Name'
                             onChange={(e) => setSearchProduct(e.target.value)} />
+                        <BsSearch className='search-icon' />
                     </div>
+
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 30 }} />
+                        <MdShoppingBag style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card mb-4">
@@ -88,13 +88,13 @@ const Category = () => {
                                     className="border border-warning w-100 py-2 fs-5"
                                 >ADD MORE</Button>
                                 <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Category Details</Modal.Title>
+                                    <Modal.Header className='modal-header' closeButton>
+                                        <Modal.Title className="text-white" style={{paddingLeft: 150}}>Add Category</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddCategory}>
                                         <Modal.Body>
-                                            <label htmlFor="category">Category</label>
-                                            <input className="w-100 mb-2" type="text" name="category" value={categorydata.category}
+                                            <label htmlFor="category" className='fs-5 mb-2'>Category</label>
+                                            <input className="w-100 mb-2 input" type="text" name="category" value={categorydata.category}
                                                 placeholder='Enter Category'
                                                 onChange={handleCategoryDetails} required /><br />
                                         </Modal.Body>
@@ -113,13 +113,13 @@ const Category = () => {
                         <div className="card mt-5 mb-3">
                             <table>
                                 <div className="mx-3 row border-bottom">
-                                    <div className="col-md-2 col-lg-1">
+                                    {/* <div className="col-md-2 col-lg-1">
                                         <h4 className="py-2">Id</h4>
                                     </div>
                                     <div className="col-md-1 col-lg-1">
                                         <div className="mt-2 h-50 vr"></div>
-                                    </div>
-                                    <div className="col-md-9 col-lg-10">
+                                    </div> */}
+                                    <div className="col-md-12 col-lg-12">
                                         <h4 className="py-2">Category</h4>
                                     </div>
 
@@ -135,13 +135,13 @@ const Category = () => {
                                     }).map((item, i) => {
                                         return (
                                             <>
-                                                <div className="border-bottom  col-md-2 col-lg-1">
-                                                    <p className='fs-5 pt-2'>0{item._id.slice(2,5)}</p>
+                                                {/* <div className="border-bottom  col-md-2 col-lg-1">
+                                                    <p className='fs-5 pt-2'>{item._id.slice(2, 7)}</p>
                                                 </div>
                                                 <div className="border-bottom  col-md-1 col-lg-1">
                                                     <div className="mt-2 h-50 vr"></div>
-                                                </div>
-                                                <div className="border-bottom  col-md-9 col-lg-10">
+                                                </div> */}
+                                                <div className="border-bottom  col-md-12 col-lg-12">
                                                     <p className='fs-5 pt-2'>{item.category}</p>
                                                 </div>
                                             </>

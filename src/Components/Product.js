@@ -3,9 +3,11 @@ import { Button, Modal } from "react-bootstrap";
 import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
+import { BsSearch } from 'react-icons/bs';
 import { getAllProducts, getAllCategory } from '../getData/getdata';
 import { addProduct } from '../postData/postdata';
 import Pagination from './Pagination';
+import ProductImage from '../images/IphonePro.jpg'
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -52,6 +54,7 @@ const Product = () => {
             .catch((error) => {
                 console.log(error);
             })
+    
     }, [])
 
     const handleCategorySelect = (event) => {
@@ -91,28 +94,37 @@ const Product = () => {
         formdata.append('category', productdata.category)
         formdata.append('subcategory', productdata.subcategory)
         formdata.append('image', productdata.image)
-
+        let data1 = data.find(v => (v.name === productdata.name))
+        if(data1)
+        {
+            alert("Product already exists");  
+        }
+        else
+        {
         addProduct(formdata, headers)
             .then((response) => {
                 alert(JSON.stringify(response.data.msg));
-
+                window.location.reload(false);    
             })
             .catch((error) => {
                 console.log(error);
             })
-    }
+    }}
 
+
+    console.log(productdata.image);
     return (
         <>
             <Sidebar />
             <div className="content">
                 <div className="row mt-4 mb-4">
                     <div className="col-md-10 col-lg-11">
-                        <input className="w-100" type="text" name="Search" placeholder='Search Category...'
+                        <input className="w-100 ps-3 search-input" type="text" name="Search" placeholder='Enter your Product Name'
                             onChange={(e) => setSearchProduct(e.target.value)} />
+                        <BsSearch className='search-icon' />
                     </div>
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 30 }} />
+                        <MdShoppingBag style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card mb-4">
@@ -126,12 +138,12 @@ const Product = () => {
                                     onClick={handleProduct} className="border border-warning w-100 py-2 fs-5">ADD MORE</Button>
                                 <Modal show={productModal} onHide={handleClose}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Product Details</Modal.Title>
+                                        <Modal.Title className="text-white" style={{paddingLeft: 160}}>Add Product</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddProduct}>
                                         <Modal.Body>
-                                            <label htmlFor="category">Select Category</label>
-                                            <select className="w-100 mb-2" name="category" id="category"
+                                            <label htmlFor="category" className='fs-5 mb-2'>Select Category</label>
+                                            <select className="w-100 mb-2 input" name="category" id="category"
                                                 value={productdata.category} onChange={handleCategorySelect} required>
                                                 <option value="">Select</option>
                                                 {categoryList.map((item) => {
@@ -141,8 +153,8 @@ const Product = () => {
 
                                                 })}
                                             </select>
-                                            <label htmlFor="subcategory">Select Sub Category</label>
-                                            <select className="w-100 mb-2" name="subcategory" id="subcategory"
+                                            <label htmlFor="subcategory" className='fs-5 mb-2'>Select Sub Category</label>
+                                            <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
                                                 onChange={handleProductDetails} required>
                                                 <option value="">Select</option>
                                                 {subcategoryList.map((item, i) => {
@@ -153,26 +165,26 @@ const Product = () => {
                                                     }
                                                 })}
                                             </select>
-                                            <label htmlFor="">Product Name</label><br />
-                                            <input className="w-100 mb-2" type="text" name="name" value={productdata.name} placeholder='Enter Product name'
+                                            <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
+                                            <input className="w-100 mb-2 input" type="text" name="name" value={productdata.name} placeholder='Enter Product name'
                                                 onChange={handleProductDetails} required /><br />
-                                            <label htmlFor="">Product Image</label><br />
+                                            <label htmlFor="productImage" className='fs-5 mb-2'>Product Image</label><br />
                                             <input className="w-100 mb-2" type="file" name="image" placeholder='Select Image'
                                                 onChange={handleImage} required /><br />
-                                            <label htmlFor="">Quantity</label><br />
-                                            <input className="w-100 mb-2" type="number" name="quantity" value={productdata.quantity} placeholder='Enter Quantity'
+                                            <label htmlFor="quantity" className='fs-5 mb-2'>Quantity</label><br />
+                                            <input className="w-100 mb-2 input" type="number" name="quantity" value={productdata.quantity} placeholder='Enter Quantity'
                                                 onChange={handleProductDetails} required /><br />
-                                            <label htmlFor="">Price</label><br />
-                                            <input className="w-100 mb-2" type="number" name="price" value={productdata.price} placeholder='Enter Price'
+                                            <label htmlFor="price" className='fs-5 mb-2'>Price</label><br />
+                                            <input className="w-100 mb-2 input" type="number" name="price" value={productdata.price} placeholder='Enter Price'
                                                 onChange={handleProductDetails} required /><br />
-                                            <label htmlFor="">Details</label><br />
-                                            <textarea className="mb-2" name="details" id="details" cols="60" rows="5"
-                                                onChange={handleProductDetails} value={productdata.details} required></textarea><br />
-                                            <label htmlFor="">Specifications</label><br />
-                                            <input className="w-100 mb-2" type="text" name="specifications" placeholder='Enter Specifications'
+                                            <label htmlFor="details" className='fs-5 mb-2'>Details</label><br />
+                                            <textarea className="mb-2 textarea" name="details" id="details" cols="60" rows="5"
+                                                onChange={handleProductDetails} value={productdata.details} placeholder='Enter Details' required></textarea><br />
+                                            <label htmlFor="specifications" className='fs-5 mb-2'>Specifications</label><br />
+                                            <textarea className="mb-2 textarea" name="specifications" id="specifications" cols="60" rows="5" placeholder='Enter Specifications'
                                                 onChange={handleProductDetails} value={productdata.specifications} required /><br />
-                                            <label htmlFor="">Features</label><br />
-                                            <input className="w-100 mb-2" type="text" name="features" placeholder='Enter Features'
+                                            <label htmlFor="features" className='fs-5 mb-2'>Features</label><br />
+                                            <textarea className="mb-2 textarea" name="features" id="features" cols="60" rows="5" placeholder='Enter Features'
                                                 onChange={handleProductDetails} value={productdata.features} required /><br />
 
                                         </Modal.Body>
@@ -192,20 +204,33 @@ const Product = () => {
 
                             <div className="mx-3 row border-bottom">
 
-                                <div className="col-md-2 col-lg-1">
+                                {/* <div className="col-md-2 col-lg-1">
                                     <h4 className="py-2">Id</h4>
                                 </div>
                                 <div className="col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
-                                </div>
-                                <div className="col-md-4 col-lg-5">
-                                    <h4 className="py-2">Product Name</h4>
+                                </div> */}
+                                <div className="col-md-3 col-lg-3">
+                                    <h4 className="py-2">Name</h4>
                                 </div>
                                 <div className="col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
                                 </div>
-                                <div className="col-md-4 col-lg-4">
-                                    <h4 className="py-2">Product Price</h4>
+                                <div className="col-md-2 col-lg-2">
+                                    <h4 className="py-2">Price</h4>
+                                </div>
+
+                                <div className="col-md-1 col-lg-1">
+                                    <div className="mt-2 h-50 vr"></div>
+                                </div>
+                                <div className="col-md-2 col-lg-2">
+                                    <h4 className="py-2">Quantity</h4>
+                                </div>
+                                <div className="col-md-1 col-lg-1">
+                                    <div className="mt-2 h-50 vr"></div>
+                                </div>
+                                <div className="col-md-2 col-lg-2">
+                                    <h4 className="py-2">Image</h4>
                                 </div>
 
                             </div>
@@ -218,25 +243,43 @@ const Product = () => {
                                         return val;
                                     }
                                 }).map((item, i) => {
+                                    
                                     return (
+                                        
                                         <>
-                                            <div className="border-bottom col-md-2 col-lg-1">
-                                                <p className='fs-5 pt-2'>0{item._id.slice(2,5)}</p>
+                                            {/* <div className="border-bottom col-md-2 col-lg-1">
+                                                <p className='fs-5 pt-2'>{item._id.slice(2, 7)}</p>
                                             </div>
                                             <div className="border-bottom col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
-                                            </div>
-                                            <div className="border-bottom col-md-4 col-lg-5">
+                                            </div> */}
+                                            <div className="border-bottom col-md-3 col-lg-3">
                                                 <p className='fs-5 pt-2'>{item.name}</p>
 
                                             </div>
                                             <div className="border-bottom col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div>
-                                            <div className="border-bottom col-md-4 col-lg-4">
+                                            <div className="border-bottom col-md-2 col-lg-2">
                                                 <p className='fs-5 pt-2'>{item.price}</p>
 
                                             </div>
+                                            <div className="border-bottom col-md-1 col-lg-1">
+                                                <div className="mt-2 h-50 vr"></div>
+                                            </div>
+                                            <div className="border-bottom col-md-2 col-lg-2">
+                                                <p className='fs-5 pt-2'>{item.quantity}</p>
+
+                                            </div>
+                                            <div className="border-bottom col-md-1 col-lg-1">
+                                                <div className="mt-2 h-50 vr"></div>
+                                            </div>
+                                            <div className="border-bottom col-md-2 col-lg-2">
+                                            {item.image !== "/uploads/undefined" ? 
+                                            <img className='product-image' src={"data:image/png;base64,"+ item.image} alt="productImage"/> 
+                                            :<img className='product-image' src={ProductImage} alt="productImage"/> }
+                                            </div>
+
                                         </>
                                     )
                                 })}

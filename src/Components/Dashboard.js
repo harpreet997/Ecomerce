@@ -5,6 +5,7 @@ import OrdersLogo from '../images/Order.PNG';
 import IncomeLogo from '../images/Income.PNG';
 import ExpenseLogo from '../images/Expense.PNG';
 import { MdShoppingBag } from 'react-icons/md';
+import { BsSearch } from 'react-icons/bs';
 
 const Dashboard = () => {
     return (
@@ -13,14 +14,15 @@ const Dashboard = () => {
             <div className="content">
                 <div className="row mt-4 mb-4">
                     <div className="col-md-10 col-lg-11">
-                        <input className="w-100" type="text" name="Search" placeholder='Search Products...'
-                            />
+                        <input className="w-100 ps-3 search-input" type="text" name="Search" placeholder='Search Products...'
+                        />
+                        <BsSearch className='search-icon' />
                     </div>
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 30 }} />
+                        <MdShoppingBag style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
-                <div className="card" style={{ height: 550 }}>
+                <div className="card">
                     <div className="card-body">
                         <h3>Product Details</h3>
                         <div className="row mt-5">

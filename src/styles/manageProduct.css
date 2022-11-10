@@ -17,7 +17,7 @@
   }
    
   .sidebar a.active {
-    background-color: darkblue;
+    background-color: #051142;
     color: white;
   }
   
@@ -73,4 +73,43 @@
     width:200px;
     height:100px;
   }
+}
+
+.search-input{
+  background-color: #F7E4A6;
+  height: 50px;
+  border-radius: 5px  
+}
+
+.search-icon{
+  float: right;
+  position: relative;
+  margin-top: -35px;
+  margin-right: 0px;
+  width: 60px;
+  height: 20px;
+}
+
+.btn-close{
+  background-color: white !important;
+}
+
+.modal-header{
+  background-color: #051142;
+  color: white;
+}
+
+.input{
+  height: 50px;
+  border-radius: 10px
+}
+
+.textarea{
+  border-radius: 10px;
+}
+
+.product-image{
+  width: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
