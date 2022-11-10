@@ -82,7 +82,8 @@ const SubCategory = () => {
                                 <h4>Add Sub Category</h4>
                             </div>
                             <div className="col-md-3 col-lg-2">
-                                <Button style={{ marginLeft: 50 }} onClick={handleSubCategory} className="bg-warning bg-gradient">ADD MORE</Button>
+                                <Button style={{ backgroundColor: "orange"}} onClick={handleSubCategory} 
+                                className="ms-0 border border-warning w-100 py-2 fs-5 fw-bold">ADD MORE</Button>
                                 <Modal show={subCategoryModal} onHide={() => setSubCategoryModal(false)}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Sub Category Details</Modal.Title>

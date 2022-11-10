@@ -17,7 +17,7 @@ const Sidebar = () => {
         <div className="sidebar">
             <img src={HeaderLogo} alt="HeaderLogo" className='img-width'/>
             <Link className="active" style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard" onClick={() => setShowManage(false)}>Dashboard</Link>
-            <Link style={{ fontWeight: "bold", fontSize: 20 }}  onClick={() => setShowManage(true)}>Manage Products</Link>
+            <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard" onClick={() => setShowManage(true)}>Manage Products</Link>
             {showManage ? (
                 <>
                     <Link to="/category" >Add Category</Link>

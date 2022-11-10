@@ -91,7 +91,7 @@ const Product = () => {
         formdata.append('category', productdata.category)
         formdata.append('subcategory', productdata.subcategory)
         formdata.append('image', productdata.image)
-        
+
         addProduct(formdata, headers)
             .then((response) => {
                 alert(JSON.stringify(response.data.msg));
@@ -122,7 +122,8 @@ const Product = () => {
                                 <h4>Add Product</h4>
                             </div>
                             <div className="col-md-3 col-lg-2">
-                                <Button style={{ marginLeft: 50 }} onClick={handleProduct} className="bg-warning bg-gradient">ADD MORE</Button>
+                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }}
+                                    onClick={handleProduct} className="border border-warning w-100 py-2 fs-5">ADD MORE</Button>
                                 <Modal show={productModal} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Product Details</Modal.Title>
@@ -188,48 +189,58 @@ const Product = () => {
                             </div>
                         </div>
                         <div className="card mt-5 mb-3">
-                            
-                                <div className="row border-bottom">
 
-                                    <div className="col-sm-4">
-                                        <h4>Product ID</h4>
-                                    </div>
+                            <div className="mx-3 row border-bottom">
 
-                                    <div className="col-sm-4">
-                                        <h4>Product Name</h4>
-                                    </div>
-                                    <div className="col-sm-4">
-                                        <h4>Product Price</h4>
-                                    </div>
-
+                                <div className="col-md-2 col-lg-1">
+                                    <h4 className="py-2">Id</h4>
                                 </div>
-                                <div className="row mx-0">
-                                    {currentRecords.filter((val) => {
-                                        if (searchProduct === "") {
-                                            return val;
-                                        }
-                                        else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                            return val;
-                                        }
-                                    }).map((item, i) => {
-                                        return (
-                                            <>
-                                                <div className="col-sm-4">
-                                                    <p>{item._id}</p>
-                                                </div>
-
-                                                <div className="col-sm-4">
-                                                    <p>{item.name}</p>
-
-                                                </div>
-                                                <div className="col-sm-4">
-                                                    <p>{item.price}</p>
-
-                                                </div>
-                                            </>
-                                        )
-                                    })}
+                                <div className="col-md-1 col-lg-1">
+                                    <div className="mt-2 h-50 vr"></div>
                                 </div>
+                                <div className="col-md-4 col-lg-5">
+                                    <h4 className="py-2">Product Name</h4>
+                                </div>
+                                <div className="col-md-1 col-lg-1">
+                                    <div className="mt-2 h-50 vr"></div>
+                                </div>
+                                <div className="col-md-4 col-lg-4">
+                                    <h4 className="py-2">Product Price</h4>
+                                </div>
+
+                            </div>
+                            <div className="row mx-3">
+                                {currentRecords.filter((val) => {
+                                    if (searchProduct === "") {
+                                        return val;
+                                    }
+                                    else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
+                                        return val;
+                                    }
+                                }).map((item, i) => {
+                                    return (
+                                        <>
+                                            <div className="border-bottom col-md-2 col-lg-1">
+                                                <p className='fs-5 pt-2'>0{item._id.slice(2,5)}</p>
+                                            </div>
+                                            <div className="border-bottom col-md-1 col-lg-1">
+                                                <div className="mt-2 h-50 vr"></div>
+                                            </div>
+                                            <div className="border-bottom col-md-4 col-lg-5">
+                                                <p className='fs-5 pt-2'>{item.name}</p>
+
+                                            </div>
+                                            <div className="border-bottom col-md-1 col-lg-1">
+                                                <div className="mt-2 h-50 vr"></div>
+                                            </div>
+                                            <div className="border-bottom col-md-4 col-lg-4">
+                                                <p className='fs-5 pt-2'>{item.price}</p>
+
+                                            </div>
+                                        </>
+                                    )
+                                })}
+                            </div>
                         </div>
                         <Pagination
                             nPages={nPages}

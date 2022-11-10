@@ -19,6 +19,10 @@ const Category = () => {
     const currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
 
+    console.log(indexOfLastRecord);
+    console.log(indexOfFirstRecord);
+    console.log(currentRecords);
+
     const handleCategory = () => setCategoryModal(true);
 
     let headers = {
@@ -80,7 +84,9 @@ const Category = () => {
                                 <h4>Add Category</h4>
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
-                                <Button style={{ marginLeft: 50 }} onClick={handleCategory} className="bg-warning bg-gradient">ADD MORE</Button>
+                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }} onClick={handleCategory}
+                                    className="border border-warning w-100 py-2 fs-5"
+                                >ADD MORE</Button>
                                 <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Category Details</Modal.Title>
@@ -106,16 +112,19 @@ const Category = () => {
                         </div>
                         <div className="card mt-5 mb-3">
                             <table>
-                                <div className="row border-bottom">
-                                    <div className="col-xs-6 col-sm-6 col-md-6">
-                                        <h4>Category ID</h4>
+                                <div className="mx-3 row border-bottom">
+                                    <div className="col-md-2 col-lg-1">
+                                        <h4 className="py-2">Id</h4>
                                     </div>
-                                    <div className="col-xs-6 col-sm-6 col-md-6">
-                                        <h4>Category</h4>
+                                    <div className="col-md-1 col-lg-1">
+                                        <div className="mt-2 h-50 vr"></div>
+                                    </div>
+                                    <div className="col-md-9 col-lg-10">
+                                        <h4 className="py-2">Category</h4>
                                     </div>
 
                                 </div>
-                                <div className="row mx-0">
+                                <div className="row mx-3">
                                     {currentRecords.filter((val) => {
                                         if (searchProduct === "") {
                                             return val;
@@ -126,12 +135,14 @@ const Category = () => {
                                     }).map((item, i) => {
                                         return (
                                             <>
-                                                <div className="col-xs-6 col-sm-6 col-md-6">
-                                                    <p>{item._id}</p>
+                                                <div className="border-bottom  col-md-2 col-lg-1">
+                                                    <p className='fs-5 pt-2'>0{item._id.slice(2,5)}</p>
                                                 </div>
-
-                                                <div className="col-xs-6 col-sm-6 col-md-6">
-                                                    <p>{item.category}</p>
+                                                <div className="border-bottom  col-md-1 col-lg-1">
+                                                    <div className="mt-2 h-50 vr"></div>
+                                                </div>
+                                                <div className="border-bottom  col-md-9 col-lg-10">
+                                                    <p className='fs-5 pt-2'>{item.category}</p>
                                                 </div>
                                             </>
                                         )
