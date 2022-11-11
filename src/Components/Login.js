@@ -10,6 +10,11 @@ export default function Login() {
     email: "",
     password: "",
   });
+  let headers = {
+    authorization: `${localStorage.getItem('token')}`
+}
+console.log('headers', headers.authorization);
+console.log(typeof headers);
   const navigate= useNavigate();
   const handleInput = (event) => {
     setData1({ ...data1, [event.target.name]: event.target.value });
@@ -24,6 +29,7 @@ export default function Login() {
     if (data1.email !== "" && data1.password !== "") {
       if (data1) {
         alert("Login Successfully");
+        
         let payload = {
           email: data1.email,
           password: data1.password,
@@ -38,6 +44,8 @@ export default function Login() {
           })
           .catch();
           navigate("/dashboard");
+          window.location.reload(false);
+          
         handleReset();
       }
     } else {

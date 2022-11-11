@@ -5,11 +5,16 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import Routing from './Components/Routing';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+let headers = {
+  authorization: `${localStorage.getItem('token')}`
+}
+console.log("index", headers.authorization);
 root.render(
   <Router>
   <React.StrictMode>
-    <Routing/>
+    <Routing headers={headers.authorization}/>
   </React.StrictMode>
   </Router>
 );

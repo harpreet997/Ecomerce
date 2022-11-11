@@ -2,19 +2,20 @@ import { Route, Routes } from 'react-router-dom';
 import Category from './Category';
 import Dashboard from './Dashboard';
 import Login from './Login';
-import ManageProducts from './ManageProducts';
 import Product from './Product';
 import SubCategory from './SubCategory';
-
-const Routing = () => {
+import PageNotFound from './PageNotFound';
+import Unauthorize from './Unauthorize';
+const Routing = ({headers}) => {
+    
     return (
         <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard/>} />
-            <Route exact path="/manage-products" element={<ManageProducts />} />
-            <Route path="/category" element={<Category/>} />
-            <Route path="/subcategory" element={<SubCategory/>} />
-            <Route path="/product" element={<Product/>} />
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={headers === "null" ? <Unauthorize/> : <Dashboard/> } />
+            <Route path="/category" element={headers === "null" ? <Unauthorize/> :<Category/>} />
+            <Route path="/subcategory" element={headers === "null" ? <Unauthorize/> :<SubCategory/>} />
+            <Route path="/product" element={headers === "null" ? <Unauthorize/> :<Product/>} />
+            <Route path="*" element={<PageNotFound/>} />        
         </Routes>
     );
 }

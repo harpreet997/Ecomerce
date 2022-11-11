@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from "react-bootstrap";
-import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { getAllProducts, getAllCategory } from '../getData/getdata';
 import { addProduct } from '../postData/postdata';
 import Pagination from './Pagination';
-import ProductImage from '../images/IphonePro.jpg'
+import ProductImage from '../images/IphonePro.jpg';
+import '../styles/manageProduct.css';
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -24,20 +24,25 @@ const Product = () => {
         category: "",
         subcategory: ""
     })
+    const filterdata = data.filter(item => {
+        return item.image !== "/uploads/undefined" && item._id !== "6360b6e537bc34b2e06b054a"
+    })
+
     const [productModal, setProductModal] = useState(false);
     const [searchProduct, setSearchProduct] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
-    const nPages = Math.ceil(data.length / recordsPerPage)
+    const currentRecords = filterdata.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(filterdata.length / recordsPerPage)
     const handleClose = () => setProductModal(false);
     const handleProduct = () => setProductModal(true);
 
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
+
     useEffect(() => {
         getAllProducts()
             .then((response) => {
@@ -54,7 +59,7 @@ const Product = () => {
             .catch((error) => {
                 console.log(error);
             })
-    
+
     }, [])
 
     const handleCategorySelect = (event) => {
@@ -95,24 +100,21 @@ const Product = () => {
         formdata.append('subcategory', productdata.subcategory)
         formdata.append('image', productdata.image)
         let data1 = data.find(v => (v.name === productdata.name))
-        if(data1)
-        {
-            alert("Product already exists");  
+        if (data1) {
+            alert("Product already exists");
         }
-        else
-        {
-        addProduct(formdata, headers)
-            .then((response) => {
-                alert(JSON.stringify(response.data.msg));
-                window.location.reload(false);    
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }}
+        else {
+            addProduct(formdata, headers)
+                .then((response) => {
+                    alert(JSON.stringify(response.data.msg));
+                    window.location.reload(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }
 
-
-    console.log(productdata.image);
     return (
         <>
             <Sidebar />
@@ -138,7 +140,7 @@ const Product = () => {
                                     onClick={handleProduct} className="border border-warning w-100 py-2 fs-5">ADD MORE</Button>
                                 <Modal show={productModal} onHide={handleClose}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title className="text-white" style={{paddingLeft: 160}}>Add Product</Modal.Title>
+                                        <Modal.Title className="text-white" style={{ paddingLeft: 160 }}>Add Product</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddProduct}>
                                         <Modal.Body>
@@ -243,9 +245,9 @@ const Product = () => {
                                         return val;
                                     }
                                 }).map((item, i) => {
-                                    
+
                                     return (
-                                        
+
                                         <>
                                             {/* <div className="border-bottom col-md-2 col-lg-1">
                                                 <p className='fs-5 pt-2'>{item._id.slice(2, 7)}</p>
@@ -275,9 +277,9 @@ const Product = () => {
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div>
                                             <div className="border-bottom col-md-2 col-lg-2">
-                                            {item.image !== "/uploads/undefined" ? 
-                                            <img className='product-image' src={"data:image/png;base64,"+ item.image} alt="productImage"/> 
-                                            :<img className='product-image' src={ProductImage} alt="productImage"/> }
+                                                {item.image !== "/uploads/undefined" ?
+                                                    <img className='product-image' src={"data:image/png;base64," + item.image} alt="productImage" />
+                                                    : <img className='product-image' src={ProductImage} alt="productImage" />}
                                             </div>
 
                                         </>
@@ -293,9 +295,6 @@ const Product = () => {
                     </div>
 
                 </div>
-
-
-
             </div>
         </>
     );
