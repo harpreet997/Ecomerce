@@ -74,7 +74,7 @@ const SubCategory = () => {
                         <BsSearch className='search-icon' />
                     </div>
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 40 }} />
+                        <MdShoppingBag className="shopping-bag" style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card" style={{ height: "100%" }}>

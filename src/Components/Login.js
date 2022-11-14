@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoginLogo from '../images/Login_Logo.PNG';
 import '../styles/login.css';
 import axios from "axios";
@@ -12,10 +12,10 @@ export default function Login() {
   });
   let headers = {
     authorization: `${localStorage.getItem('token')}`
-}
-console.log('headers', headers.authorization);
-console.log(typeof headers);
-  const navigate= useNavigate();
+  }
+  console.log('headers', headers.authorization);
+  console.log(typeof headers);
+  const navigate = useNavigate();
   const handleInput = (event) => {
     setData1({ ...data1, [event.target.name]: event.target.value });
   };
@@ -40,11 +40,11 @@ console.log(typeof headers);
               localStorage.setItem("refresh", val.data.refresh);
             }
           })
-          alert("Login Successfully");
-          navigate("/dashboard");
-          window.location.reload(false);
-          
-          
+        alert("Login Successfully");
+        navigate("/dashboard");
+        window.location.reload(false);
+
+
         handleReset();
       }
     } else {
@@ -63,19 +63,24 @@ console.log(typeof headers);
                 <div className="card-body p-md-5 ">
                   <div className="row justify-content-center">
                     <div className="row">
-                      <div className="col-md-6 col-lg-6">
+                      <div className="col-md-5 col-lg-5">
                         <div className="Login_img col-md-6">
                           <img
                             src={LoginLogo}
                             alt="LoginLogo"
                             width="400"
                             height={400}
-                            style={{ marginLeft: "38px", marginTop: "35px" }}
+                            style={{ marginLeft: "58px", marginTop: "35px" }}
+                            className="logo"
                           />
                         </div>
                       </div>
+                      <div className="col-xs-1 col-md-1 col-lg-1 d-flex">
+                        <div className="vertical-line vr"></div>
+                      </div>
 
-                      <div className="col-md-6 col-lg-6 col-xl-5 order-2 ">
+
+                      <div className="col-md-6 col-lg-6 col-xl-6 order-2 ">
                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                           Login
                         </p>
@@ -132,15 +137,15 @@ console.log(typeof headers);
                             />
                             <label
                               class="form-check-label remember"
-                              style={{ marginRight: "230px", marginTop: "1px" }}
+                              style={{ marginRight: "150px", marginTop: "1px" }}
                               for="form2Example3"
                             >
                               Remember me
                             </label>
                             <div
-                              className="forgot_pwd"
+                              className="forgot_pwd forgot-password"
                               style={{
-                                marginLeft: "219px",
+                                marginLeft: "280px",
                                 marginTop: "-27px",
                               }}
                             >
@@ -165,7 +170,7 @@ console.log(typeof headers);
                             >
                               Login
                             </button>
-                            
+
                           </div>
                         </form>
                       </div>

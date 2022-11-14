@@ -13,13 +13,13 @@ const Dashboard = () => {
             <Sidebar />
             <div className="content">
                 <div className="row mt-4 mb-4">
-                    <div className="col-md-10 col-lg-11">
+                    <div className="col-xs-6 col-sm-6 col-md-10 col-lg-11">
                         <input className="w-100 ps-3 search-input" type="text" name="Search" placeholder='Search Products...'
                         />
                         <BsSearch className='search-icon' />
                     </div>
-                    <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 40 }} />
+                    <div className="col-xs-6 col-sm-6 col-md-2 col-lg-1">
+                        <MdShoppingBag className="shopping-bag" style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card">

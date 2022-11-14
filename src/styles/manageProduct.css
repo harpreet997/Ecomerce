@@ -66,6 +66,18 @@
     width:400px;
     height:200px;
   }
+  .search-input{
+    width:85% !important
+  }
+  .shopping-bag{
+    width:50px !important;
+    height: 40px !important;
+    float: right !important;
+    margin-top: -45px !important;
+  }
+  .search-icon{
+    margin-right: 50px !important
+  }
 }
 
 @media screen and (min-width: 700px) {

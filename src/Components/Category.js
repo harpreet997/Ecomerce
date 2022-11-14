@@ -4,6 +4,7 @@ import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import {AiOutlineSortAscending} from 'react-icons/ai';
 import { getAllCategory } from '../getData/getdata';
 import { addCategory } from '../postData/postdata';
 import Pagination from './Pagination';
@@ -16,9 +17,12 @@ const Category = () => {
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
+    var currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
 
+    const [sortedRecords, setSortedRecords] = useState([currentRecords]);
+    console.log(currentRecords);
+    console.log(sortedRecords);
     const handleCategory = () => setCategoryModal(true);
 
     let headers = {
@@ -60,6 +64,22 @@ const Category = () => {
         }
     }
 
+    const sortCategoryAscending = () => {
+        const sortdata = categoryList.sort((c1,c2)=> {
+            if(c1.category > c2.category) 
+            {
+                return 1;
+            }
+            else{
+                return -1
+            }
+        })
+        console.log(sortdata);
+        currentRecords = sortdata;
+        console.log(currentRecords);
+        return currentRecords
+    }
+
     return (
         <>
             <Sidebar />
@@ -74,7 +94,7 @@ const Category = () => {
                     </div>
 
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 40 }} />
+                        <MdShoppingBag className="shopping-bag" style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card mb-4">
@@ -82,6 +102,7 @@ const Category = () => {
                         <div className="row">
                             <div className="col-xs-6 col-md-9 col-lg-10">
                                 <h4>Add Category</h4>
+                                {/* <AiOutlineSortAscending onClick={sortCategoryAscending}/> */}
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }} onClick={handleCategory}

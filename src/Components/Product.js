@@ -126,7 +126,7 @@ const Product = () => {
                         <BsSearch className='search-icon' />
                     </div>
                     <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag style={{ width: 50, height: 40 }} />
+                        <MdShoppingBag className="shopping-bag" style={{ width: 50, height: 40 }} />
                     </div>
                 </div>
                 <div className="card mb-4">
@@ -212,26 +212,26 @@ const Product = () => {
                                 <div className="col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
                                 </div> */}
-                                <div className="col-md-3 col-lg-3">
+                                <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                     <h4 className="py-2">Name</h4>
                                 </div>
-                                <div className="col-md-1 col-lg-1">
+                                <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
                                 </div>
-                                <div className="col-md-2 col-lg-2">
+                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                     <h4 className="py-2">Price</h4>
                                 </div>
 
-                                <div className="col-md-1 col-lg-1">
+                                <div className="col-xs-1 col-md-1 col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
                                 </div>
-                                <div className="col-md-2 col-lg-2">
+                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                     <h4 className="py-2">Quantity</h4>
                                 </div>
-                                <div className="col-md-1 col-lg-1">
+                                <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                     <div className="mt-2 h-50 vr"></div>
                                 </div>
-                                <div className="col-md-2 col-lg-2">
+                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                     <h4 className="py-2">Image</h4>
                                 </div>
 
@@ -255,28 +255,28 @@ const Product = () => {
                                             <div className="border-bottom col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div> */}
-                                            <div className="border-bottom col-md-3 col-lg-3">
+                                            <div className="border-bottom col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                                 <p className='fs-5 pt-2'>{item.name}</p>
 
                                             </div>
-                                            <div className="border-bottom col-md-1 col-lg-1">
+                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div>
-                                            <div className="border-bottom col-md-2 col-lg-2">
+                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                                 <p className='fs-5 pt-2'>{item.price}</p>
 
                                             </div>
-                                            <div className="border-bottom col-md-1 col-lg-1">
+                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div>
-                                            <div className="border-bottom col-md-2 col-lg-2">
+                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                                 <p className='fs-5 pt-2'>{item.quantity}</p>
 
                                             </div>
-                                            <div className="border-bottom col-md-1 col-lg-1">
+                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                 <div className="mt-2 h-50 vr"></div>
                                             </div>
-                                            <div className="border-bottom col-md-2 col-lg-2">
+                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                                 {item.image !== "/uploads/undefined" ?
                                                     <img className='product-image' src={"data:image/png;base64," + item.image} alt="productImage" />
                                                     : <img className='product-image' src={ProductImage} alt="productImage" />}
