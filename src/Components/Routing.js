@@ -6,15 +6,19 @@ import Product from './Product';
 import SubCategory from './SubCategory';
 import PageNotFound from './PageNotFound';
 import Unauthorize from './Unauthorize';
-const Routing = ({headers}) => {
+const Routing = () => {
+
+    let headers = {
+        authorization: `${localStorage.getItem('token')}`
+      }
     
     return (
         <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/dashboard" element={headers === "null" ? <Unauthorize/> : <Dashboard/> } />
-            <Route path="/category" element={headers === "null" ? <Unauthorize/> :<Category/>} />
-            <Route path="/subcategory" element={headers === "null" ? <Unauthorize/> :<SubCategory/>} />
-            <Route path="/product" element={headers === "null" ? <Unauthorize/> :<Product/>} />
+            <Route path="/dashboard" element={headers.authorization === "null" ? <Unauthorize/> : <Dashboard/> } />
+            <Route path="/category" element={headers.authorization === "null" ? <Unauthorize/> :<Category/>} />
+            <Route path="/subcategory" element={headers.authorization === "null" ? <Unauthorize/> :<SubCategory/>} />
+            <Route path="/product" element={headers.authorization === "null" ? <Unauthorize/> :<Product/>} />
             <Route path="*" element={<PageNotFound/>} />        
         </Routes>
     );

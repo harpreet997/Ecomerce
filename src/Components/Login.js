@@ -28,8 +28,6 @@ console.log(typeof headers);
     console.log(data1);
     if (data1.email !== "" && data1.password !== "") {
       if (data1) {
-        alert("Login Successfully");
-        
         let payload = {
           email: data1.email,
           password: data1.password,
@@ -42,9 +40,10 @@ console.log(typeof headers);
               localStorage.setItem("refresh", val.data.refresh);
             }
           })
-          .catch();
+          alert("Login Successfully");
           navigate("/dashboard");
           window.location.reload(false);
+          
           
         handleReset();
       }
@@ -57,14 +56,14 @@ console.log(typeof headers);
   return (
     <div>
       <section>
-        <div className="container h-100 ">
+        <div className="container-fluid h-100 ">
           <div className="row d-flex justify-content-center align-items-center h-100 ">
             <div className="col-lg-12 col-xl-11 ">
               <div className="card text-black ">
                 <div className="card-body p-md-5 ">
                   <div className="row justify-content-center">
                     <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-md-6 col-lg-6">
                         <div className="Login_img col-md-6">
                           <img
                             src={LoginLogo}

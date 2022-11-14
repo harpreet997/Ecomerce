@@ -14,7 +14,7 @@ console.log("index", headers.authorization);
 root.render(
   <Router>
   <React.StrictMode>
-    <Routing headers={headers.authorization}/>
+    <Routing />
   </React.StrictMode>
   </Router>
 );
