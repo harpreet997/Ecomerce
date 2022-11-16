@@ -4,8 +4,12 @@ import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import { FiEdit } from 'react-icons/fi';
+import { MdDelete } from 'react-icons/md';
 import { getAllCategory } from '../getData/getdata';
 import { addSubCategory } from '../postData/postdata';
+import { deleteSubCategory } from '../postData/postdata';
+import EditSubCategory from './EditSubCategory';
 
 const SubCategory = () => {
     const [categoryList, setCategoryList] = useState([]);
@@ -15,8 +19,13 @@ const SubCategory = () => {
     });
     const [subcategoryList, setSubCategoryList] = useState([]);
     const [subCategoryModal, setSubCategoryModal] = useState(false);
+    const [editsubCategoryModal, setEditSubCategoryModal] = useState(false);
     const [searchSubCategory, setSearchSubCategory] = useState('');
+    const [category, setCategory] = useState();
+    const [id, setId] = useState();
+
     const handleSubCategory = () => setSubCategoryModal(true);
+    const handleEditSubCategory = () => setEditSubCategoryModal(true);
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -33,6 +42,7 @@ const SubCategory = () => {
 
     const handleCategorySelect = (event) => {
         const category = event.target.value;
+        setCategory(category);
         let data = categoryList.find(v => (v.category === category))
         setSubCategoryList(data.subcategory)
     }
@@ -63,6 +73,17 @@ const SubCategory = () => {
 
     }
 
+    const DeleteSubCategory = (id) => {
+        deleteSubCategory(id)
+            .then((response) => {
+                alert(JSON.stringify(response.data.msg));
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     return (
         <>
             <Sidebar />
@@ -88,7 +109,7 @@ const SubCategory = () => {
                                     className="ms-0 border border-warning w-100 py-2 fs-5 fw-bold">ADD MORE</Button>
                                 <Modal show={subCategoryModal} onHide={() => setSubCategoryModal(false)}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title className="text-white" style={{paddingLeft: 140}}>Add Sub Category</Modal.Title>
+                                        <Modal.Title className="text-white" style={{ paddingLeft: 140 }}>Add Sub Category</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddSubCategory}>
                                         <Modal.Body>
@@ -135,39 +156,54 @@ const SubCategory = () => {
                             </div>
                         </div>
                         <div className="card mt-2">
-
-                            <div className="row border-bottom mx-3">
-                                <div className="col-lg-12">
-                                    <h4>Sub Category</h4>
-                                </div>
-
-                            </div>
-                            {subcategoryList.length > 0 ? 
-                                <div className="row mx-3">
-                                    {subcategoryList.filter((val) => {
-                                        if (searchSubCategory === "") {
-                                            return val;
-                                        }
-                                        else if (val.toLowerCase().includes(searchSubCategory.toLowerCase())) {
-                                            return val;
-                                        }
-                                    }).map((item, i) => {
-                                        for (i = 0; i < item.length; i++) {
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sub Category</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                {subcategoryList.length > 0 ?
+                                    <tbody>
+                                        {subcategoryList.filter((val) => {
+                                            if (searchSubCategory === "") {
+                                                return val;
+                                            }
+                                            else if (val.toLowerCase().includes(searchSubCategory.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((item) => {
                                             return (
-                                                <>
-                                                    <div className="border-bottom col-lg-12">
-                                                        <p className='fs-5 pt-2'>{item}</p>
-                                                    </div>
-                                                </>
+                                                <tr>
+                                                    <td className='action-width' style={{ width: 500 }}>{item}</td>
+                                                    <td>
+                                                        <button className="btn btn-primary me-1" onClick={() => {
+                                                            handleEditSubCategory()
+                                                            setSubCategoryData(item)
+                                                            setId(item._id)
+
+                                                        }}><FiEdit />
+                                                        </button>
+                                                        |
+                                                        <button className="btn btn-primary ms-1"
+                                                            onClick={() => DeleteSubCategory(item._id)}>
+                                                            <MdDelete />
+                                                        </button>
+                                                    </td>
+                                                    <Modal show={editsubCategoryModal}
+                                                        onHide={() => setEditSubCategoryModal(false)}>
+                                                        <EditSubCategory category={category}
+                                                            data={subcategorydata} categoryList={categoryList} id={id} />
+                                                    </Modal>
+                                                </tr>
                                             )
-                                        }
-                                    })}
-                                </div>
-                            : <div className='row mx-3'>
-                                <p className='fs-5 pt-2'>No SubCategory Found</p>
-                            </div>}
+                                        })}
 
-
+                                    </tbody>
+                                    : <div className='row mx-3'>
+                                        <p className='fs-5 pt-2'>No SubCategory Found</p>
+                                    </div>}
+                            </table>
                         </div>
                     </div>
                 </div>

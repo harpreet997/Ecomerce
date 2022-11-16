@@ -6,6 +6,7 @@ import Product from './Product';
 import SubCategory from './SubCategory';
 import PageNotFound from './PageNotFound';
 import Unauthorize from './Unauthorize';
+import UsersList from './UsersList';
 const Routing = () => {
 
     let headers = {
@@ -19,6 +20,7 @@ const Routing = () => {
             <Route path="/category" element={headers.authorization === "null" ? <Unauthorize/> :<Category/>} />
             <Route path="/subcategory" element={headers.authorization === "null" ? <Unauthorize/> :<SubCategory/>} />
             <Route path="/product" element={headers.authorization === "null" ? <Unauthorize/> :<Product/>} />
+            <Route path="/users" element={headers.authorization === "null" ? <Unauthorize/> :<UsersList/>} />
             <Route path="*" element={<PageNotFound/>} />        
         </Routes>
     );

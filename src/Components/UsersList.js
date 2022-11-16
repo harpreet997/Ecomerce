@@ -4,15 +4,12 @@ import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
-import { FiEdit } from 'react-icons/fi';
-import { MdDelete } from 'react-icons/md';
 import { getAllCategory } from '../getData/getdata';
 import { addCategory } from '../postData/postdata';
-import { deleteCategory } from '../postData/postdata';
 import Pagination from './Pagination';
 import EditCategory from './EditCategory';
 
-const Category = () => {
+const UsersList = () => {
     const [categoryList, setCategoryList] = useState([]);
     const [categorydata, setCategoryData] = useState({ category: "" });
     const [categoryModal, setCategoryModal] = useState(false);
@@ -66,21 +63,10 @@ const Category = () => {
         }
     }
 
-
-    const DeleteCategory = (id) => {
-        deleteCategory(id)
-            .then((response) => {
-                alert(JSON.stringify(response.data.msg));
-                window.location.reload(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
     return (
         <>
             <Sidebar />
+
             <div className="content">
                 <div className="row mt-4 mb-4">
                     <div className="col-md-10 col-lg-11">
@@ -98,23 +84,21 @@ const Category = () => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-xs-6 col-md-9 col-lg-10">
-                                <h4>Add Category</h4>
+                                <h4>Users List</h4>
 
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
-                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }}
-                                    onClick={handleCategory}
+                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }} onClick={handleCategory}
                                     className="border border-warning w-100 py-2 fs-5"
                                 >ADD MORE</Button>
                                 <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
                                     <Modal.Header className='modal-header' closeButton>
-                                        <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>
-                                            Add Category</Modal.Title>
+                                        <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>Add Category</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddCategory}>
                                         <Modal.Body>
                                             <label htmlFor="category" className='fs-5 mb-2'>Category</label>
-                                            <input className="w-100 mb-2 input" type="text" name="category"
+                                            <input className="w-100 mb-2 input" type="text" name="category" value={categorydata.category}
                                                 placeholder='Enter Category'
                                                 onChange={handleCategoryDetails} required /><br />
                                         </Modal.Body>
@@ -130,7 +114,9 @@ const Category = () => {
                                 </Modal>
                             </div>
                         </div>
-                        <div className="card mt-5 mb-3">
+                        {/* <div className="card mt-5 mb-3">
+
+                           
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -150,23 +136,18 @@ const Category = () => {
                                         return (
                                             <tr>
                                                 <td className='action-width' style={{ width: 500 }}>{item.category}</td>
-                                                <td>
-                                                    <button className="btn btn-primary me-1" onClick={() => {
+                                                <td><button className="btn btn-primary" onClick={() => {
                                                         handleEditCategory()
                                                         setCategoryData(item)
                                                         setId(item._id)
-                                                    }}><FiEdit />
-                                                    </button>
-                                                    | <button className="btn btn-primary ms-1" onClick={() => DeleteCategory(item._id)}>
-                                                        <MdDelete />
-                                                    </button>
-                                                </td>
+                                                    }}>Edit</button> | <button className="btn btn-primary">Delete</button></td>
                                                 <Modal show={editcategoryModal} onHide={() => setEditCategoryModal(false)}>
-                                                    <EditCategory data={categorydata} id={id} />
+                                                <EditCategory data={categorydata} id={id}/>                                   
                                                 </Modal>
                                             </tr>
                                         )
                                     })}
+
                                 </tbody>
                             </table>
                         </div>
@@ -174,12 +155,16 @@ const Category = () => {
                             nPages={nPages}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
-                        />
+                        /> */}
                     </div>
+
                 </div>
+
+
+
             </div>
         </>
     );
 }
 
-export default Category;
+export default UsersList;

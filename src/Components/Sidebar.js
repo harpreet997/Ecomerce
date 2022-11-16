@@ -15,9 +15,11 @@ const Sidebar = () => {
     return (
 
         <div className="sidebar">
-            <img src={HeaderLogo} alt="HeaderLogo" className='img-width'/>
-            <Link className="active" style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard" onClick={() => setShowManage(false)}>Dashboard</Link>
-            <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard" onClick={() => setShowManage(true)}>Manage Products</Link>
+            <img src={HeaderLogo} alt="HeaderLogo" className='img-width' />
+            <Link className="active" style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard"
+                onClick={() => setShowManage(false)}>Dashboard</Link>
+            <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard"
+                onClick={() => setShowManage(true)}>Manage Products</Link>
             {showManage ? (
                 <>
                     <Link to="/category" >Add Category</Link>
@@ -25,7 +27,11 @@ const Sidebar = () => {
                     <Link to="/product" >Add Product</Link>
                 </>
             ) : null}
-            <Link to="/" style={{ fontWeight: "bold", fontSize: 20, cursor: "pointer" }} onClick={handleLogout}>Logout</Link>
+            <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/users"
+                onClick={() => setShowManage(true)}>User Management</Link>
+            <Link to="/" style={{ fontWeight: "bold", fontSize: 20, cursor: "pointer" }}
+                onClick={handleLogout}>Logout</Link>
+
         </div>
 
     )

@@ -3,11 +3,15 @@ import { Button, Modal } from "react-bootstrap";
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import { FiEdit } from 'react-icons/fi';
+import { MdDelete } from 'react-icons/md';
 import { getAllProducts, getAllCategory } from '../getData/getdata';
 import { addProduct } from '../postData/postdata';
+import { deleteProduct } from '../postData/postdata';
 import Pagination from './Pagination';
 import ProductImage from '../images/IphonePro.jpg';
 import '../styles/manageProduct.css';
+import EditProduct from './EditProduct';
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -29,6 +33,7 @@ const Product = () => {
     })
 
     const [productModal, setProductModal] = useState(false);
+    const [editproductModal, setEditProductModal] = useState(false);
     const [searchProduct, setSearchProduct] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
@@ -36,9 +41,11 @@ const Product = () => {
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = filterdata.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(filterdata.length / recordsPerPage)
+    const [id, setId] = useState();
+
     const handleClose = () => setProductModal(false);
     const handleProduct = () => setProductModal(true);
-
+    const handleEditProduct = () => setEditProductModal(true);
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -85,6 +92,17 @@ const Product = () => {
             ...productdata,
             image: event.target.files[0]
         })
+    }
+
+    const DeleteProduct = (id) => {
+        deleteProduct(id)
+            .then((response) => {
+                alert(JSON.stringify(response.data.msg));
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const AddProduct = (event) => {
@@ -146,7 +164,7 @@ const Product = () => {
                                         <Modal.Body>
                                             <label htmlFor="category" className='fs-5 mb-2'>Select Category</label>
                                             <select className="w-100 mb-2 input" name="category" id="category"
-                                                value={productdata.category} onChange={handleCategorySelect} required>
+                                                onChange={handleCategorySelect} required>
                                                 <option value="">Select</option>
                                                 {categoryList.map((item) => {
                                                     return (
@@ -168,26 +186,28 @@ const Product = () => {
                                                 })}
                                             </select>
                                             <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
-                                            <input className="w-100 mb-2 input" type="text" name="name" value={productdata.name} placeholder='Enter Product name'
+                                            <input className="w-100 mb-2 input" type="text" name="name" placeholder='Enter Product name'
                                                 onChange={handleProductDetails} required /><br />
                                             <label htmlFor="productImage" className='fs-5 mb-2'>Product Image</label><br />
-                                            <input className="w-100 mb-2" type="file" name="image" placeholder='Select Image'
+                                            <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
                                                 onChange={handleImage} required /><br />
                                             <label htmlFor="quantity" className='fs-5 mb-2'>Quantity</label><br />
-                                            <input className="w-100 mb-2 input" type="number" name="quantity" value={productdata.quantity} placeholder='Enter Quantity'
+                                            <input className="w-100 mb-2 input" type="number" name="quantity" placeholder='Enter Quantity'
                                                 onChange={handleProductDetails} required /><br />
                                             <label htmlFor="price" className='fs-5 mb-2'>Price</label><br />
-                                            <input className="w-100 mb-2 input" type="number" name="price" value={productdata.price} placeholder='Enter Price'
+                                            <input className="w-100 mb-2 input" type="number" name="price" placeholder='Enter Price'
                                                 onChange={handleProductDetails} required /><br />
                                             <label htmlFor="details" className='fs-5 mb-2'>Details</label><br />
                                             <textarea className="mb-2 textarea" name="details" id="details" cols="60" rows="5"
-                                                onChange={handleProductDetails} value={productdata.details} placeholder='Enter Details' required></textarea><br />
+                                                onChange={handleProductDetails} placeholder='Enter Details' required></textarea><br />
                                             <label htmlFor="specifications" className='fs-5 mb-2'>Specifications</label><br />
-                                            <textarea className="mb-2 textarea" name="specifications" id="specifications" cols="60" rows="5" placeholder='Enter Specifications'
-                                                onChange={handleProductDetails} value={productdata.specifications} required /><br />
+                                            <textarea className="mb-2 textarea" name="specifications" id="specifications" cols="60"
+                                                rows="5" placeholder='Enter Specifications'
+                                                onChange={handleProductDetails} required /><br />
                                             <label htmlFor="features" className='fs-5 mb-2'>Features</label><br />
-                                            <textarea className="mb-2 textarea" name="features" id="features" cols="60" rows="5" placeholder='Enter Features'
-                                                onChange={handleProductDetails} value={productdata.features} required /><br />
+                                            <textarea className="mb-2 textarea" name="features" id="features" cols="60" rows="5"
+                                                placeholder='Enter Features'
+                                                onChange={handleProductDetails} required /><br />
 
                                         </Modal.Body>
                                         <Modal.Footer>
@@ -203,88 +223,59 @@ const Product = () => {
                             </div>
                         </div>
                         <div className="card mt-5 mb-3">
+                            <div className='scroll'>
+                                <table className="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Sub Category</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentRecords.filter((val) => {
+                                            if (searchProduct === "") {
+                                                return val;
+                                            }
+                                            else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((item, i) => {
+                                            return (
+                                                <tr>
+                                                    <td style={{ width: 350 }}>{item.name}</td>
+                                                    <td>{item.category}</td>
+                                                    <td>{item.subcategory}</td>
+                                                    <td>{item.price}</td>
+                                                    <td>{item.quantity}</td>
+                                                    <td>{item.image !== "/uploads/undefined" ?
+                                                        <img className='product-image' src={"data:image/png;base64," + item.image}
+                                                            alt="productImage" />
+                                                        : <img className='product-image' src={ProductImage} alt="productImage" />}</td>
+                                                    <td>
+                                                        <button className="btn btn-primary me-1" onClick={() => {
+                                                            handleEditProduct();
+                                                            setProductData(item);
+                                                            setId(item.id);
+                                                        }}><FiEdit />
+                                                        </button>
+                                                        |
+                                                        <button className="btn btn-primary ms-1" onClick={() => DeleteProduct(item._id)}><MdDelete />
+                                                        </button>
+                                                    </td>
+                                                    <Modal show={editproductModal} onHide={() => setEditProductModal(false)}>
+                                                        <EditProduct id={id} data={productdata} categoryList={categoryList} />
+                                                    </Modal>
+                                                </tr>
+                                            )
+                                        })}
 
-                            <div className="mx-3 row border-bottom">
-
-                                {/* <div className="col-md-2 col-lg-1">
-                                    <h4 className="py-2">Id</h4>
-                                </div>
-                                <div className="col-md-1 col-lg-1">
-                                    <div className="mt-2 h-50 vr"></div>
-                                </div> */}
-                                <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                    <h4 className="py-2">Name</h4>
-                                </div>
-                                <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                    <div className="mt-2 h-50 vr"></div>
-                                </div>
-                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <h4 className="py-2">Price</h4>
-                                </div>
-
-                                <div className="col-xs-1 col-md-1 col-md-1 col-lg-1">
-                                    <div className="mt-2 h-50 vr"></div>
-                                </div>
-                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <h4 className="py-2">Quantity</h4>
-                                </div>
-                                <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                    <div className="mt-2 h-50 vr"></div>
-                                </div>
-                                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                    <h4 className="py-2">Image</h4>
-                                </div>
-
-                            </div>
-                            <div className="row mx-3">
-                                {currentRecords.filter((val) => {
-                                    if (searchProduct === "") {
-                                        return val;
-                                    }
-                                    else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                        return val;
-                                    }
-                                }).map((item, i) => {
-
-                                    return (
-
-                                        <>
-                                            {/* <div className="border-bottom col-md-2 col-lg-1">
-                                                <p className='fs-5 pt-2'>{item._id.slice(2, 7)}</p>
-                                            </div>
-                                            <div className="border-bottom col-md-1 col-lg-1">
-                                                <div className="mt-2 h-50 vr"></div>
-                                            </div> */}
-                                            <div className="border-bottom col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                <p className='fs-5 pt-2'>{item.name}</p>
-
-                                            </div>
-                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                                <div className="mt-2 h-50 vr"></div>
-                                            </div>
-                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                <p className='fs-5 pt-2'>{item.price}</p>
-
-                                            </div>
-                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                                <div className="mt-2 h-50 vr"></div>
-                                            </div>
-                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                <p className='fs-5 pt-2'>{item.quantity}</p>
-
-                                            </div>
-                                            <div className="border-bottom col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                                <div className="mt-2 h-50 vr"></div>
-                                            </div>
-                                            <div className="border-bottom col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                {item.image !== "/uploads/undefined" ?
-                                                    <img className='product-image' src={"data:image/png;base64," + item.image} alt="productImage" />
-                                                    : <img className='product-image' src={ProductImage} alt="productImage" />}
-                                            </div>
-
-                                        </>
-                                    )
-                                })}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <Pagination
@@ -293,7 +284,6 @@ const Product = () => {
                             setCurrentPage={setCurrentPage}
                         />
                     </div>
-
                 </div>
             </div>
         </>
