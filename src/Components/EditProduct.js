@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { editProduct } from "../postData/postdata";
 import { headers } from "../Header";
 
-const EditProduct = ({ data, categoryList, id }) => {
+const EditProduct = ({ getAllData, data, categoryList, id }) => {
     const [editproductdata, setEditProductData] = useState({
         name: data.name,
         price: data.price,
@@ -15,7 +15,7 @@ const EditProduct = ({ data, categoryList, id }) => {
         category: data.category,
         subcategory: data.subcategory,
     })
-    const [subcategoryList, setSubCategoryList] = useState([]);
+    const [subcategoryList, setSubCategoryList] = useState([data.subcategory]);
 
     console.log(data.subcategory);
     console.log(editproductdata.subcategory);
@@ -61,7 +61,7 @@ const EditProduct = ({ data, categoryList, id }) => {
         formdata.append('category', editproductdata.category)
         formdata.append('subcategory', editproductdata.subcategory)
         formdata.append('image', editproductdata.image)
-        let data1 = data.find(v => (v.name === editproductdata.name))
+        let data1 = getAllData.find(v => (v.name === editproductdata.name))
         if (data1) {
             alert("Product already exists");
         }
@@ -99,13 +99,7 @@ const EditProduct = ({ data, categoryList, id }) => {
                     <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
                         value={editproductdata.subcategory} onChange={handleProductDetails} required>
                         <option value="">Select</option>
-                        {subcategoryList.map((item, i) => {
-
-                            return (
-                                <option value={item} >{item}</option>
-                            )
-
-                        })}
+                        {subcategoryList.map(item => <option value={item} >{item}</option>)}
                     </select>
                     <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
                     <input className="w-100 mb-2 input" type="text" name="name" value={editproductdata.name}
@@ -113,7 +107,7 @@ const EditProduct = ({ data, categoryList, id }) => {
                         onChange={handleProductDetails} required /><br />
                     <label htmlFor="productImage" className='fs-5 mb-2'>Product Image</label><br />
                     <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
-                        required  onChange={handleImage} /><br />
+                        onChange={handleImage} /><br />
                     
                         <img className='product-image' src={"data:image/png;base64," + data.image}
                             alt="productImage" />

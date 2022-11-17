@@ -1,7 +1,7 @@
 .sidebar {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: 210px;
   background-color: #f1f1f1;
   position: fixed;
   height: 100%;
@@ -89,7 +89,7 @@ div.content {
 
 @media screen and (min-width: 700px) {
   .img-width {
-    width: 200px;
+    width: 210px;
     height: 100px;
   }
 }

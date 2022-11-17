@@ -5,15 +5,22 @@ import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { getAllCategory } from '../getData/getdata';
-import { addCategory } from '../postData/postdata';
+import { addUser } from '../postData/postdata';
 import Pagination from './Pagination';
 import EditCategory from './EditCategory';
 
 const UsersList = () => {
     const [categoryList, setCategoryList] = useState([]);
-    const [categorydata, setCategoryData] = useState({ category: "" });
-    const [categoryModal, setCategoryModal] = useState(false);
-    const [editcategoryModal, setEditCategoryModal] = useState(false);
+    const [userdata, setUserData] = useState(
+        {
+            name: "",
+            email: "",
+            mobile: "",
+            password: ""
+        }
+    );
+    const [userModal, setUserModal] = useState(false);
+    const [edituserModal, setEditUserModal] = useState(false);
     const [searchProduct, setSearchProduct] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
@@ -23,8 +30,8 @@ const UsersList = () => {
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
     const [id, setId] = useState();
 
-    const handleCategory = () => setCategoryModal(true);
-    const handleEditCategory = () => setEditCategoryModal(true);
+    const handleUser = () => setUserModal(true);
+    
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -38,21 +45,17 @@ const UsersList = () => {
             })
     }, [])
 
-    const handleCategoryDetails = (event) => {
-        setCategoryData({
-            ...categorydata,
+    const handleUserDetails = (event) => {
+        setUserData({
+            ...userdata,
             [event.target.name]: event.target.value
         })
     }
 
-    const AddCategory = (event) => {
+    const AddUser = (event) => {
         event.preventDefault();
-        let data = categoryList.find(v => (v.category === categorydata.category))
-        if (data) {
-            alert("Category already exists");
-        }
-        else {
-            addCategory(categorydata, headers)
+        
+            addUser(userdata)
                 .then((response) => {
                     alert(JSON.stringify(response.data.msg));
                     window.location.reload(false);
@@ -60,7 +63,7 @@ const UsersList = () => {
                 .catch((error) => {
                     console.log(error);
                 })
-        }
+        
     }
 
     return (
@@ -88,26 +91,39 @@ const UsersList = () => {
 
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
-                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }} onClick={handleCategory}
+                                <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }} onClick={handleUser}
                                     className="border border-warning w-100 py-2 fs-5"
                                 >ADD MORE</Button>
-                                <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
+                                <Modal show={userModal} onHide={() => setUserModal(false)}>
                                     <Modal.Header className='modal-header' closeButton>
-                                        <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>Add Category</Modal.Title>
+                                        <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>Add User</Modal.Title>
                                     </Modal.Header>
-                                    <form onSubmit={AddCategory}>
+                                    <form onSubmit={AddUser}>
                                         <Modal.Body>
-                                            <label htmlFor="category" className='fs-5 mb-2'>Category</label>
-                                            <input className="w-100 mb-2 input" type="text" name="category" value={categorydata.category}
-                                                placeholder='Enter Category'
-                                                onChange={handleCategoryDetails} required /><br />
+                                            <label htmlFor="category" className='fs-5 mb-2'>Name</label>
+                                            <input className="w-100 mb-2 input" type="text" name="name"
+                                                placeholder='Enter Name'
+                                                onChange={handleUserDetails} required /><br />
+                                            <label htmlFor="category" className='fs-5 mb-2'>Email Address</label>
+                                            <input className="w-100 mb-2 input" type="email" name="email"
+                                                placeholder='Enter Email'
+                                                onChange={handleUserDetails} required /><br />
+                                            <label htmlFor="category" className='fs-5 mb-2'>Contact Number</label>
+                                            <input className="w-100 mb-2 input" type="tel" name="mobile" pattern="[0-9]{5}[0-9]{5}"
+                                                placeholder='1234567890'
+                                                onChange={handleUserDetails} required /><br />
+                                            <label htmlFor="category" className='fs-5 mb-2'>Password</label>
+                                            <input className="w-100 mb-2 input" type="password" name="password"
+                                                placeholder='Enter Password'
+                                                onChange={handleUserDetails} required /><br />
+
                                         </Modal.Body>
                                         <Modal.Footer>
-                                            <Button variant="secondary" onClick={() => setCategoryModal(false)}>
+                                            <Button variant="secondary" onClick={() => setUserModal(false)}>
                                                 Cancel
                                             </Button>
                                             <Button type="submit" variant="primary">
-                                                Add Category
+                                                Add User
                                             </Button>
                                         </Modal.Footer>
                                     </form>

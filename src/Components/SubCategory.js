@@ -25,7 +25,7 @@ const SubCategory = () => {
     const [id, setId] = useState();
 
     const handleSubCategory = () => setSubCategoryModal(true);
-    const handleEditSubCategory = () => setEditSubCategoryModal(true);
+    const handleEditSubCategory = (item) => setEditSubCategoryModal(item);
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -177,20 +177,19 @@ const SubCategory = () => {
                                                 <tr>
                                                     <td className='action-width' style={{ width: 500 }}>{item}</td>
                                                     <td>
-                                                        <button className="btn btn-primary me-1" onClick={() => {
-                                                            handleEditSubCategory()
+                                                        <button className="btn btn-primary px-3 pb-2" onClick={() => {
+                                                            handleEditSubCategory(item)
                                                             setSubCategoryData(item)
                                                             setId(item._id)
-
                                                         }}><FiEdit />
                                                         </button>
-                                                        |
-                                                        <button className="btn btn-primary ms-1"
+                                                        
+                                                        <button className="btn btn-primary px-3 pb-2 ms-2"
                                                             onClick={() => DeleteSubCategory(item._id)}>
                                                             <MdDelete />
                                                         </button>
                                                     </td>
-                                                    <Modal show={editsubCategoryModal}
+                                                    <Modal show={editsubCategoryModal === item ? true: false}
                                                         onHide={() => setEditSubCategoryModal(false)}>
                                                         <EditSubCategory category={category}
                                                             data={subcategorydata} categoryList={categoryList} id={id} />

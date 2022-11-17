@@ -45,7 +45,10 @@ const Product = () => {
 
     const handleClose = () => setProductModal(false);
     const handleProduct = () => setProductModal(true);
-    const handleEditProduct = () => setEditProductModal(true);
+    const handleEditProduct = (id) => {
+        setEditProductModal(id)
+
+    };
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -257,18 +260,21 @@ const Product = () => {
                                                             alt="productImage" />
                                                         : <img className='product-image' src={ProductImage} alt="productImage" />}</td>
                                                     <td>
-                                                        <button className="btn btn-primary me-1" onClick={() => {
-                                                            handleEditProduct();
+                                                        <button className="btn btn-primary px-3 pb-2" onClick={(e) => {
+                                                            handleEditProduct(item._id);
+
                                                             setProductData(item);
-                                                            setId(item.id);
-                                                        }}><FiEdit />
+                                                            setId(item._id)
+                                                        }}>
+                                                            <FiEdit />
                                                         </button>
-                                                        |
-                                                        <button className="btn btn-primary ms-1" onClick={() => DeleteProduct(item._id)}><MdDelete />
+
+                                                        <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => DeleteProduct(item._id)}>
+                                                            <MdDelete />
                                                         </button>
                                                     </td>
-                                                    <Modal show={editproductModal} onHide={() => setEditProductModal(false)}>
-                                                        <EditProduct id={id} data={productdata} categoryList={categoryList} />
+                                                    <Modal show={editproductModal === item._id ? true : false} onHide={() => setEditProductModal(false)}>
+                                                        <EditProduct getAllData={data} id={id} data={productdata} categoryList={categoryList} />
                                                     </Modal>
                                                 </tr>
                                             )

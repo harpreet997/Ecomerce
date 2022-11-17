@@ -12,14 +12,15 @@ const Sidebar = () => {
         alert("Loging Out");
         navigate("/");
     }
-    return (
 
+    
+    return (
         <div className="sidebar">
             <img src={HeaderLogo} alt="HeaderLogo" className='img-width' />
             <Link className="active" style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard"
-                onClick={() => setShowManage(false)}>Dashboard</Link>
+                >Dashboard</Link>
             <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/dashboard"
-                onClick={() => setShowManage(true)}>Manage Products</Link>
+                onClick={() => setShowManage(!showManage)}>Manage Products</Link>
             {showManage ? (
                 <>
                     <Link to="/category" >Add Category</Link>
@@ -28,7 +29,7 @@ const Sidebar = () => {
                 </>
             ) : null}
             <Link style={{ fontWeight: "bold", fontSize: 20 }} to="/users"
-                onClick={() => setShowManage(true)}>User Management</Link>
+                >User Management</Link>
             <Link to="/" style={{ fontWeight: "bold", fontSize: 20, cursor: "pointer" }}
                 onClick={handleLogout}>Logout</Link>
 

@@ -27,7 +27,7 @@ const Category = () => {
     const [id, setId] = useState();
 
     const handleCategory = () => setCategoryModal(true);
-    const handleEditCategory = () => setEditCategoryModal(true);
+    const handleEditCategory = (id) => setEditCategoryModal(id);
     let headers = {
         authorization: `Bearer ${localStorage.getItem('token')}`
     }
@@ -151,17 +151,17 @@ const Category = () => {
                                             <tr>
                                                 <td className='action-width' style={{ width: 500 }}>{item.category}</td>
                                                 <td>
-                                                    <button className="btn btn-primary me-1" onClick={() => {
-                                                        handleEditCategory()
+                                                    <button className="btn btn-primary px-3 pb-2" onClick={() => {
+                                                        handleEditCategory(item._id)
                                                         setCategoryData(item)
                                                         setId(item._id)
                                                     }}><FiEdit />
                                                     </button>
-                                                    | <button className="btn btn-primary ms-1" onClick={() => DeleteCategory(item._id)}>
+                                                    <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => DeleteCategory(item._id)}>
                                                         <MdDelete />
                                                     </button>
                                                 </td>
-                                                <Modal show={editcategoryModal} onHide={() => setEditCategoryModal(false)}>
+                                                <Modal show={editcategoryModal === item._id ? true: false} onHide={() => setEditCategoryModal(false)}>
                                                     <EditCategory data={categorydata} id={id} />
                                                 </Modal>
                                             </tr>
