@@ -3,9 +3,10 @@ import { Button, Modal } from "react-bootstrap";
 import { editCategory } from "../postData/postdata";
 import { headers } from "../Header";
 
-const EditCategory = ({ data, id }) => {
+const EditCategory = ({ data }) => {
     const [editcategorydata, setEditCategorydata] = useState({
-        category: data.category
+        old: data.category,
+        new: ""
     })
     const handleCategoryDetails = (event) => {
         setEditCategorydata({
@@ -21,8 +22,7 @@ const EditCategory = ({ data, id }) => {
 
     const UpdateCategory = (event) => {
         event.preventDefault();
-        alert(`updated category, ${editcategorydata.category} ${id}`);
-        editCategory(editcategorydata, headers, id)
+        editCategory(editcategorydata, headers)
             .then(() => {
                 alert("category updated sucessfully");
                 window.location.reload(false);
@@ -39,8 +39,12 @@ const EditCategory = ({ data, id }) => {
             </Modal.Header>
             <form onSubmit={UpdateCategory}>
                 <Modal.Body>
-                    <label htmlFor="category" className='fs-5 mb-2'>Category</label>
-                    <input className="w-100 mb-2 input" type="text" name="category" value={editcategorydata.category}
+                <label htmlFor="oldcategory" className='fs-5 mb-2'>Old Category</label>
+                    <input className="w-100 mb-2 input" type="text" name="old" value={editcategorydata.old} readOnly
+                        placeholder='Enter Category' onChange={handleCategoryDetails}
+                        required /><br />
+                    <label htmlFor="newcategory" className='fs-5 mb-2'>New Category</label>
+                    <input className="w-100 mb-2 input" type="text" name="new" 
                         placeholder='Enter Category' onChange={handleCategoryDetails}
                         required /><br />
 

@@ -16,6 +16,7 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
         subcategory: data.subcategory,
     })
     const [subcategoryList, setSubCategoryList] = useState([data.subcategory]);
+    const formdata = new FormData();
 
     console.log(data.subcategory);
     console.log(editproductdata.subcategory);
@@ -51,7 +52,16 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
 
     const UpdateProduct = (event) => {
         event.preventDefault();
-        const formdata = new FormData();
+        if(editproductdata.quantity <=0)
+        {
+            alert("Please fill valid quantity");
+        }
+        else if(editproductdata.price <=0)
+        {
+            alert("Please fill valid price");
+        }
+        else
+        {      
         formdata.append('name', editproductdata.name)
         formdata.append('price', editproductdata.price)
         formdata.append('quantity', editproductdata.quantity)
@@ -61,6 +71,7 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
         formdata.append('category', editproductdata.category)
         formdata.append('subcategory', editproductdata.subcategory)
         formdata.append('image', editproductdata.image)
+        }
         let data1 = getAllData.find(v => (v.name === editproductdata.name))
         if (data1) {
             alert("Product already exists");
@@ -88,12 +99,7 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
                     <select className="w-100 mb-2 input" name="category" id="category"
                         value={editproductdata.category} onChange={handleCategorySelect} required>
                         <option value="">Select</option>
-                        {categoryList.map((item) => {
-                            return (
-                                <option value={item.category} >{item.category}</option>
-                            )
-
-                        })}
+                        {categoryList.map((item) => (<option value={item.category} >{item.category}</option>))}
                     </select>
                     <label htmlFor="subcategory" className='fs-5 mb-2'>Select Sub Category</label>
                     <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
@@ -113,11 +119,11 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
                             alt="productImage" />
                     <br />
                     <label htmlFor="quantity" className='fs-5 mb-2'>Quantity</label><br />
-                    <input className="w-100 mb-2 input" type="number" name="quantity" value={editproductdata.quantity}
+                    <input className="w-100 mb-2 input" type="number" min={1} name="quantity" value={editproductdata.quantity}
                         placeholder='Enter Quantity'
                         onChange={handleProductDetails} required /><br />
                     <label htmlFor="price" className='fs-5 mb-2'>Price</label><br />
-                    <input className="w-100 mb-2 input" type="number" name="price" value={editproductdata.price}
+                    <input className="w-100 mb-2 input" type="number" min={1} name="price" value={editproductdata.price}
                         placeholder='Enter Price'
                         onChange={handleProductDetails} required /><br />
                     <label htmlFor="details" className='fs-5 mb-2'>Details</label><br />

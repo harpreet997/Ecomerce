@@ -10,11 +10,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  let headers = {
-    authorization: `${localStorage.getItem('token')}`
-  }
-  console.log('headers', headers.authorization);
-  console.log(typeof headers);
+ 
   const navigate = useNavigate();
   const handleInput = (event) => {
     setData1({ ...data1, [event.target.name]: event.target.value });

@@ -10,6 +10,7 @@ import { getAllCategory } from '../getData/getdata';
 import { addSubCategory } from '../postData/postdata';
 import { deleteSubCategory } from '../postData/postdata';
 import EditSubCategory from './EditSubCategory';
+import { headers } from '../Header';
 
 const SubCategory = () => {
     const [categoryList, setCategoryList] = useState([]);
@@ -26,9 +27,7 @@ const SubCategory = () => {
 
     const handleSubCategory = () => setSubCategoryModal(true);
     const handleEditSubCategory = (item) => setEditSubCategoryModal(item);
-    let headers = {
-        authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+    
     useEffect(() => {
         getAllCategory()
             .then((response) => {

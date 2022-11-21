@@ -17,8 +17,8 @@ export const addUser = (userdata) => {
     return axios.post(`${baseUrl}/api/signup`, userdata)
 } 
 
-export const editCategory = (data, headers, id) => {
-    return axios.put(`${baseUrl}/api/allCategory/${id}`, data, { headers })
+export const editCategory = (data, headers) => {
+    return axios.put('https://ecommercewebap.herokuapp.com/api/updateCategory/', data, { headers })
 } 
 
 export const editSubCategory = (data, headers, id) => {
@@ -29,8 +29,8 @@ export const editProduct = (formdata, headers, id) => {
     return axios.put(`${baseUrl}/api/${id}`, formdata, { headers })
 } 
 
-export const deleteCategory = (id, headers) => {
-    return axios.delete(`${baseUrl}/api/allCategory/${id}`, { headers })
+export const deleteCategory = (data, headers) => {
+    return axios.delete('https://ecommercewebap.herokuapp.com/api/deleteCategory/', data, { headers })
 }
 
 export const deleteSubCategory = (id, headers) => {

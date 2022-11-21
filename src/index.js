@@ -7,10 +7,6 @@ import Routing from './Components/Routing';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-let headers = {
-  authorization: `${localStorage.getItem('token')}`
-}
-console.log("index", headers.authorization);
 root.render(
   <Router>
   <React.StrictMode>

@@ -11,6 +11,7 @@ import { addCategory } from '../postData/postdata';
 import { deleteCategory } from '../postData/postdata';
 import Pagination from './Pagination';
 import EditCategory from './EditCategory';
+import { headers } from '../Header';
 
 const Category = () => {
     const [categoryList, setCategoryList] = useState([]);
@@ -24,13 +25,12 @@ const Category = () => {
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     var currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
-    const [id, setId] = useState();
+    
+    
 
     const handleCategory = () => setCategoryModal(true);
     const handleEditCategory = (id) => setEditCategoryModal(id);
-    let headers = {
-        authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+    
     useEffect(() => {
         getAllCategory()
             .then((response) => {
@@ -67,8 +67,12 @@ const Category = () => {
     }
 
 
-    const DeleteCategory = (id) => {
-        deleteCategory(id)
+    const DeleteCategory = (category) => {
+        const payload = {
+            name: category
+        }
+        alert(JSON.stringify(payload));
+        deleteCategory(payload, headers)
             .then((response) => {
                 alert(JSON.stringify(response.data.msg));
                 window.location.reload(false);
@@ -148,21 +152,25 @@ const Category = () => {
                                         }
                                     }).map((item) => {
                                         return (
-                                            <tr>
+                                            <tr key={item._id}>
                                                 <td className='action-width' style={{ width: 500 }}>{item.category}</td>
                                                 <td>
                                                     <button className="btn btn-primary px-3 pb-2" onClick={() => {
                                                         handleEditCategory(item._id)
                                                         setCategoryData(item)
-                                                        setId(item._id)
+                                                        
+                                                        
                                                     }}><FiEdit />
                                                     </button>
-                                                    <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => DeleteCategory(item._id)}>
+                                                    <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => 
+                                                        {
+                                                            // alert(item.category)
+                                                            DeleteCategory(item.category)}}>
                                                         <MdDelete />
                                                     </button>
                                                 </td>
                                                 <Modal show={editcategoryModal === item._id ? true: false} onHide={() => setEditCategoryModal(false)}>
-                                                    <EditCategory data={categorydata} id={id} />
+                                                    <EditCategory data={categorydata} />
                                                 </Modal>
                                             </tr>
                                         )

@@ -12,6 +12,7 @@ import Pagination from './Pagination';
 import ProductImage from '../images/IphonePro.jpg';
 import '../styles/manageProduct.css';
 import EditProduct from './EditProduct';
+import { headers } from '../Header';
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -42,6 +43,7 @@ const Product = () => {
     const currentRecords = filterdata.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(filterdata.length / recordsPerPage)
     const [id, setId] = useState();
+    const formdata = new FormData();
 
     const handleClose = () => setProductModal(false);
     const handleProduct = () => setProductModal(true);
@@ -49,9 +51,7 @@ const Product = () => {
         setEditProductModal(id)
 
     };
-    let headers = {
-        authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+    
 
     useEffect(() => {
         getAllProducts()
@@ -110,7 +110,16 @@ const Product = () => {
 
     const AddProduct = (event) => {
         event.preventDefault();
-        const formdata = new FormData();
+        if(productdata.quantity <=0)
+        {
+            alert("Please fill valid quantity");
+        }
+        else if(productdata.price <=0)
+        {
+            alert("Please fill valid price");
+        }
+        else
+        {
         formdata.append('name', productdata.name)
         formdata.append('price', productdata.price)
         formdata.append('quantity', productdata.quantity)
@@ -120,14 +129,15 @@ const Product = () => {
         formdata.append('category', productdata.category)
         formdata.append('subcategory', productdata.subcategory)
         formdata.append('image', productdata.image)
+        }
         let data1 = data.find(v => (v.name === productdata.name))
         if (data1) {
             alert("Product already exists");
         }
         else {
             addProduct(formdata, headers)
-                .then((response) => {
-                    alert(JSON.stringify(response.data.msg));
+                .then(() => {
+                    alert("Product added successfully");
                     window.location.reload(false);
                 })
                 .catch((error) => {
@@ -195,10 +205,10 @@ const Product = () => {
                                             <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
                                                 onChange={handleImage} required /><br />
                                             <label htmlFor="quantity" className='fs-5 mb-2'>Quantity</label><br />
-                                            <input className="w-100 mb-2 input" type="number" name="quantity" placeholder='Enter Quantity'
+                                            <input className="w-100 mb-2 input" type="number" min={1} name="quantity" placeholder='Enter Quantity'
                                                 onChange={handleProductDetails} required /><br />
                                             <label htmlFor="price" className='fs-5 mb-2'>Price</label><br />
-                                            <input className="w-100 mb-2 input" type="number" name="price" placeholder='Enter Price'
+                                            <input className="w-100 mb-2 input" type="number" min={1} name="price" placeholder='Enter Price'
                                                 onChange={handleProductDetails} required /><br />
                                             <label htmlFor="details" className='fs-5 mb-2'>Details</label><br />
                                             <textarea className="mb-2 textarea" name="details" id="details" cols="60" rows="5"
