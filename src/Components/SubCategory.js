@@ -23,7 +23,7 @@ const SubCategory = () => {
     const [editsubCategoryModal, setEditSubCategoryModal] = useState(false);
     const [searchSubCategory, setSearchSubCategory] = useState('');
     const [category, setCategory] = useState();
-    const [id, setId] = useState();
+    
 
     const handleSubCategory = () => setSubCategoryModal(true);
     const handleEditSubCategory = (item) => setEditSubCategoryModal(item);
@@ -60,9 +60,8 @@ const SubCategory = () => {
             data.subcategory.push(subcategorydata.subcategory)
         }
         addSubCategory(data, headers)
-            .then((response) => {
-                console.log(response);
-                alert(JSON.stringify(response.data.msg));
+            .then(() => {
+                alert("SubCategory created successfully");
                 window.location.reload(false);
 
             })
@@ -72,10 +71,15 @@ const SubCategory = () => {
 
     }
 
-    const DeleteSubCategory = (id) => {
-        deleteSubCategory(id)
-            .then((response) => {
-                alert(JSON.stringify(response.data.msg));
+    const DeleteSubCategory = (i,data) => {
+        data.splice(i,1)
+        const payload = {
+            category: category,
+            subcategory: data
+        }
+        deleteSubCategory(payload, headers)
+            .then(() => {
+                alert("SubCategory deleted successfully");
                 window.location.reload(false);
             })
             .catch((error) => {
@@ -171,27 +175,28 @@ const SubCategory = () => {
                                             else if (val.toLowerCase().includes(searchSubCategory.toLowerCase())) {
                                                 return val;
                                             }
-                                        }).map((item) => {
+                                        }).map((item, i) => {
                                             return (
-                                                <tr>
+                                                <tr key={i}>
                                                     <td className='action-width' style={{ width: 500 }}>{item}</td>
                                                     <td>
                                                         <button className="btn btn-primary px-3 pb-2" onClick={() => {
                                                             handleEditSubCategory(item)
-                                                            setSubCategoryData(item)
-                                                            setId(item._id)
+                                                            setSubCategoryData(subcategoryList)
+                                                            // alert(subcategoryList)
+                                                            // alert(i)
                                                         }}><FiEdit />
                                                         </button>
                                                         
                                                         <button className="btn btn-primary px-3 pb-2 ms-2"
-                                                            onClick={() => DeleteSubCategory(item._id)}>
+                                                            onClick={() => DeleteSubCategory(i, subcategoryList)}>
                                                             <MdDelete />
                                                         </button>
                                                     </td>
                                                     <Modal show={editsubCategoryModal === item ? true: false}
                                                         onHide={() => setEditSubCategoryModal(false)}>
                                                         <EditSubCategory category={category}
-                                                            data={subcategorydata} categoryList={categoryList} id={id} />
+                                                            data={subcategorydata} item={item} index={i} categoryList={categoryList} />
                                                     </Modal>
                                                 </tr>
                                             )

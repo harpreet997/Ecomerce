@@ -4,10 +4,11 @@ import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
-import { getAllCategory } from '../getData/getdata';
+import { getAllUsers } from '../getData/getdata';
 import { addUser } from '../postData/postdata';
 import Pagination from './Pagination';
-import EditCategory from './EditCategory';
+import EditUser from './EditUser';
+import { headers } from '../Header';
 
 const UsersList = () => {
     const [categoryList, setCategoryList] = useState([]);
@@ -31,12 +32,10 @@ const UsersList = () => {
     const [id, setId] = useState();
 
     const handleUser = () => setUserModal(true);
-    
-    let headers = {
-        authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+    const handleEditUser = (id) => setEditUserModal(id);
+
     useEffect(() => {
-        getAllCategory()
+        getAllUsers(headers)
             .then((response) => {
                 setCategoryList(response.data);
             })
@@ -102,7 +101,7 @@ const UsersList = () => {
                                         <Modal.Body>
                                             <label htmlFor="category" className='fs-5 mb-2'>Name</label>
                                             <input className="w-100 mb-2 input" type="text" name="name"
-                                                placeholder='Enter Name'
+                                                placeholder='Enter Name' 
                                                 onChange={handleUserDetails} required /><br />
                                             <label htmlFor="category" className='fs-5 mb-2'>Email Address</label>
                                             <input className="w-100 mb-2 input" type="email" name="email"
@@ -130,13 +129,15 @@ const UsersList = () => {
                                 </Modal>
                             </div>
                         </div>
-                        {/* <div className="card mt-5 mb-3">
+                        <div className="card mt-5 mb-3">
 
-                           
+                        <div className='scroll'>
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Category</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Contact </th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -145,20 +146,22 @@ const UsersList = () => {
                                         if (searchProduct === "") {
                                             return val;
                                         }
-                                        else if (val.category.toLowerCase().includes(searchProduct.toLowerCase())) {
+                                        else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
                                             return val;
                                         }
                                     }).map((item) => {
                                         return (
                                             <tr>
-                                                <td className='action-width' style={{ width: 500 }}>{item.category}</td>
+                                                <td className='action-width' style={{width: 250}}>{item.name}</td>
+                                                <td className='action-width'>{item.email}</td>
+                                                <td className='action-width'>{item.mobile}</td>
                                                 <td><button className="btn btn-primary" onClick={() => {
-                                                        handleEditCategory()
-                                                        setCategoryData(item)
+                                                        handleEditUser(item._id)
+                                                        setUserData(item)
                                                         setId(item._id)
                                                     }}>Edit</button> | <button className="btn btn-primary">Delete</button></td>
-                                                <Modal show={editcategoryModal} onHide={() => setEditCategoryModal(false)}>
-                                                <EditCategory data={categorydata} id={id}/>                                   
+                                                <Modal show={edituserModal  === item._id ? true : false} onHide={() => setEditUserModal(false)}>
+                                                <EditUser data={userdata} id={id}/>                                   
                                                 </Modal>
                                             </tr>
                                         )
@@ -166,12 +169,13 @@ const UsersList = () => {
 
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <Pagination
                             nPages={nPages}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
-                        /> */}
+                        />
                     </div>
 
                 </div>

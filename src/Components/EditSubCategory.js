@@ -3,10 +3,10 @@ import { Button, Modal } from "react-bootstrap";
 import { editSubCategory } from "../postData/postdata";
 import { headers } from "../Header";
 
-const EditSubCategory = ({ category, data, categoryList, id }) => {
+const EditSubCategory = ({ category, data, item, index, categoryList}) => {
     const [subcategorydata, setSubCategoryData] = useState({
         category: category,
-        subcategory: data
+        subcategory: item
     });
 
     const handleSubCategoryDetails = (event) => {
@@ -19,10 +19,14 @@ const EditSubCategory = ({ category, data, categoryList, id }) => {
 
     const UpdateSubCategory = (event) => {
         event.preventDefault();
-        alert(`updated sub category, ${subcategorydata.category} ${subcategorydata.subcategory}`);
-        editSubCategory(subcategorydata, headers, id)
+        data.splice(index,1,subcategorydata.subcategory)
+        const payload = {
+            category: category,
+            subcategory: [...data]
+        }
+        editSubCategory(payload, headers)
             .then(() => {
-                alert("category updated sucessfully");
+                alert("Sub Category updated sucessfully");
                 window.location.reload(false);
             })
             .catch((error) => {

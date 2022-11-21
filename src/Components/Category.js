@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal } from "react-bootstrap";
-import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
+import EditCategory from './EditCategory';
+import Pagination from './Pagination';
+import { getAllCategory } from '../getData/getdata';
+import { addCategory } from '../postData/postdata';
+import { deleteCategory } from '../postData/postdata';
+import { headers } from '../Header';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md';
-import { getAllCategory } from '../getData/getdata';
-import { addCategory } from '../postData/postdata';
-import { deleteCategory } from '../postData/postdata';
-import Pagination from './Pagination';
-import EditCategory from './EditCategory';
-import { headers } from '../Header';
+import { Button, Modal } from "react-bootstrap";
+import '../styles/manageProduct.css';
 
 const Category = () => {
     const [categoryList, setCategoryList] = useState([]);
@@ -23,14 +23,12 @@ const Category = () => {
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    var currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(categoryList.length / recordsPerPage)
-    
-    
 
     const handleCategory = () => setCategoryModal(true);
     const handleEditCategory = (id) => setEditCategoryModal(id);
-    
+
     useEffect(() => {
         getAllCategory()
             .then((response) => {
@@ -56,8 +54,8 @@ const Category = () => {
         }
         else {
             addCategory(categorydata, headers)
-                .then((response) => {
-                    alert(JSON.stringify(response.data.msg));
+                .then(() => {
+                    alert("Category created successfully");
                     window.location.reload(false);
                 })
                 .catch((error) => {
@@ -71,10 +69,9 @@ const Category = () => {
         const payload = {
             name: category
         }
-        alert(JSON.stringify(payload));
         deleteCategory(payload, headers)
-            .then((response) => {
-                alert(JSON.stringify(response.data.msg));
+            .then(() => {
+                alert("Category deleted successfully");
                 window.location.reload(false);
             })
             .catch((error) => {
@@ -150,26 +147,22 @@ const Category = () => {
                                         else if (val.category.toLowerCase().includes(searchProduct.toLowerCase())) {
                                             return val;
                                         }
-                                    }).map((item) => {
+                                    }).map((item, i) => {
                                         return (
-                                            <tr key={item._id}>
+                                            <tr key={i}>
                                                 <td className='action-width' style={{ width: 500 }}>{item.category}</td>
                                                 <td>
                                                     <button className="btn btn-primary px-3 pb-2" onClick={() => {
                                                         handleEditCategory(item._id)
                                                         setCategoryData(item)
-                                                        
-                                                        
                                                     }}><FiEdit />
                                                     </button>
-                                                    <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => 
-                                                        {
-                                                            // alert(item.category)
-                                                            DeleteCategory(item.category)}}>
+                                                    <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() =>
+                                                        DeleteCategory(item.category)}>
                                                         <MdDelete />
                                                     </button>
                                                 </td>
-                                                <Modal show={editcategoryModal === item._id ? true: false} onHide={() => setEditCategoryModal(false)}>
+                                                <Modal show={editcategoryModal === item._id ? true : false} onHide={() => setEditCategoryModal(false)}>
                                                     <EditCategory data={categorydata} />
                                                 </Modal>
                                             </tr>

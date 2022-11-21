@@ -14,12 +14,11 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
         features: data.features,
         category: data.category,
         subcategory: data.subcategory,
+        id: data._id
     })
     const [subcategoryList, setSubCategoryList] = useState([data.subcategory]);
     const formdata = new FormData();
 
-    console.log(data.subcategory);
-    console.log(editproductdata.subcategory);
     const handleCategorySelect = (event) => {
         const category = event.target.value;
         setEditProductData({
@@ -71,21 +70,18 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
         formdata.append('category', editproductdata.category)
         formdata.append('subcategory', editproductdata.subcategory)
         formdata.append('image', editproductdata.image)
+        formdata.append('id', editproductdata.id)
         }
-        let data1 = getAllData.find(v => (v.name === editproductdata.name))
-        if (data1) {
-            alert("Product already exists");
-        }
-        else {
-            editProduct(formdata, headers, id)
-                .then((response) => {
-                    alert(JSON.stringify(response.data.msg));
+        
+            editProduct(formdata, headers)
+                .then(() => {
+                    alert("Product updated successfully");
                     window.location.reload(false);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-        }
+        
     }
 
     return (
@@ -99,13 +95,13 @@ const EditProduct = ({ getAllData, data, categoryList, id }) => {
                     <select className="w-100 mb-2 input" name="category" id="category"
                         value={editproductdata.category} onChange={handleCategorySelect} required>
                         <option value="">Select</option>
-                        {categoryList.map((item) => (<option value={item.category} >{item.category}</option>))}
+                        {categoryList.map((item, i) => (<option key={i} value={item.category} >{item.category}</option>))}
                     </select>
                     <label htmlFor="subcategory" className='fs-5 mb-2'>Select Sub Category</label>
                     <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
                         value={editproductdata.subcategory} onChange={handleProductDetails} required>
                         <option value="">Select</option>
-                        {subcategoryList.map(item => <option value={item} >{item}</option>)}
+                        {subcategoryList.map((item,i) => <option key={i} value={item} >{item}</option>)}
                     </select>
                     <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
                     <input className="w-100 mb-2 input" type="text" name="name" value={editproductdata.name}

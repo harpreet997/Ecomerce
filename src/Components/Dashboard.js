@@ -1,11 +1,11 @@
 import React from 'react';
-import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import OrdersLogo from '../images/Order.PNG';
 import IncomeLogo from '../images/Income.PNG';
 import ExpenseLogo from '../images/Expense.PNG';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import '../styles/manageProduct.css';
 
 const Dashboard = () => {
     return (
@@ -51,12 +51,10 @@ const Dashboard = () => {
                                         <div className="row">
                                             <div className="col-lg-6">
                                                 <img src={IncomeLogo} alt="OrderLogo" style={{ width: 100, height: 80 }} />
-
                                             </div>
                                             <div className="col-lg-6">
                                                 <p className="fs-1 fw-bold">&#8377; 75.0</p>
                                                 <p className="fw-bold text-secondary ms-2">50% (30 days)</p>
-
                                             </div>
                                         </div>
                                     </div>
@@ -69,7 +67,6 @@ const Dashboard = () => {
                                         <div className="row">
                                             <div className="col-lg-6">
                                                 <img src={ExpenseLogo} alt="OrderLogo" style={{ width: 100, height: 80 }} />
-
                                             </div>
                                             <div className="col-lg-6">
                                                 <p className="fs-1 fw-bold">&#8377; 50.2</p>

@@ -8,3 +8,7 @@ export const getAllProducts = () => {
 export const getAllCategory = () => {
         return axios.get(`${baseUrl}/api/allCategory`);
     }
+
+export const getAllUsers = (headers) => {
+        return axios.get(`${baseUrl}/api/allUsers`, {headers});
+    }

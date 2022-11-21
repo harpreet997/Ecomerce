@@ -24,7 +24,7 @@ const EditCategory = ({ data }) => {
         event.preventDefault();
         editCategory(editcategorydata, headers)
             .then(() => {
-                alert("category updated sucessfully");
+                alert("Category updated sucessfully");
                 window.location.reload(false);
             })
             .catch((error) => {

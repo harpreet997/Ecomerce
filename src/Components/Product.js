@@ -97,8 +97,11 @@ const Product = () => {
         })
     }
 
-    const DeleteProduct = (id) => {
-        deleteProduct(id)
+    const DeleteProduct = (p_id) => {
+        const payload = {
+            id: p_id
+        }
+        deleteProduct(payload, headers)
             .then((response) => {
                 alert(JSON.stringify(response.data.msg));
                 window.location.reload(false);
@@ -259,7 +262,7 @@ const Product = () => {
                                             }
                                         }).map((item, i) => {
                                             return (
-                                                <tr>
+                                                <tr key={i}>
                                                     <td style={{ width: 350 }}>{item.name}</td>
                                                     <td>{item.category}</td>
                                                     <td>{item.subcategory}</td>
@@ -272,7 +275,7 @@ const Product = () => {
                                                     <td>
                                                         <button className="btn btn-primary px-3 pb-2" onClick={(e) => {
                                                             handleEditProduct(item._id);
-
+                                                            
                                                             setProductData(item);
                                                             setId(item._id)
                                                         }}>

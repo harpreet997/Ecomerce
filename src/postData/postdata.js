@@ -18,25 +18,25 @@ export const addUser = (userdata) => {
 } 
 
 export const editCategory = (data, headers) => {
-    return axios.put('https://ecommercewebap.herokuapp.com/api/updateCategory/', data, { headers })
+    return axios.put(`${baseUrl}/api/updateCategory/`, data, { headers })
 } 
 
-export const editSubCategory = (data, headers, id) => {
-    return axios.put(`${baseUrl}/api/allCategory/${id}`, data, { headers })
+export const editSubCategory = (data, headers) => {
+    return axios.put(`${baseUrl}/api/updateSubCategory`, data, { headers })
 } 
 
-export const editProduct = (formdata, headers, id) => {
-    return axios.put(`${baseUrl}/api/${id}`, formdata, { headers })
+export const editProduct = (formdata, headers) => {
+    return axios.put(`${baseUrl}/api/editProduct`, formdata, { headers })
 } 
 
 export const deleteCategory = (data, headers) => {
-    return axios.delete('https://ecommercewebap.herokuapp.com/api/deleteCategory/', data, { headers })
+    return axios.delete(`${baseUrl}/api/deleteCategory/`, {data, headers: headers })
 }
 
-export const deleteSubCategory = (id, headers) => {
-    return axios.delete(`${baseUrl}/api/allCategory/${id}`, { headers })
+export const deleteSubCategory = (data, headers) => {
+    return axios.put(`${baseUrl}/api/updateSubCategory/`, data, {headers})
 } 
 
-export const deleteProduct = (id, headers) => {
-    return axios.delete(`${baseUrl}/api/${id}`, { headers })
+export const deleteProduct = (data, headers) => {
+    return axios.delete(`${baseUrl}/api/deleteProduct/`, {data, headers: headers })
 }
