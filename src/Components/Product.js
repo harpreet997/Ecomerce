@@ -42,7 +42,6 @@ const Product = () => {
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = filterdata.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(filterdata.length / recordsPerPage)
-    const [id, setId] = useState();
     const formdata = new FormData();
 
     const handleClose = () => setProductModal(false);
@@ -51,7 +50,7 @@ const Product = () => {
         setEditProductModal(id)
 
     };
-    
+
 
     useEffect(() => {
         getAllProducts()
@@ -113,25 +112,22 @@ const Product = () => {
 
     const AddProduct = (event) => {
         event.preventDefault();
-        if(productdata.quantity <=0)
-        {
+        if (productdata.quantity <= 0) {
             alert("Please fill valid quantity");
         }
-        else if(productdata.price <=0)
-        {
+        else if (productdata.price <= 0) {
             alert("Please fill valid price");
         }
-        else
-        {
-        formdata.append('name', productdata.name)
-        formdata.append('price', productdata.price)
-        formdata.append('quantity', productdata.quantity)
-        formdata.append('features', productdata.features)
-        formdata.append('details', productdata.details)
-        formdata.append('specifications', productdata.specifications)
-        formdata.append('category', productdata.category)
-        formdata.append('subcategory', productdata.subcategory)
-        formdata.append('image', productdata.image)
+        else {
+            formdata.append('name', productdata.name)
+            formdata.append('price', productdata.price)
+            formdata.append('quantity', productdata.quantity)
+            formdata.append('features', productdata.features)
+            formdata.append('details', productdata.details)
+            formdata.append('specifications', productdata.specifications)
+            formdata.append('category', productdata.category)
+            formdata.append('subcategory', productdata.subcategory)
+            formdata.append('image', productdata.image)
         }
         let data1 = data.find(v => (v.name === productdata.name))
         if (data1) {
@@ -266,28 +262,28 @@ const Product = () => {
                                                     <td style={{ width: 350 }}>{item.name}</td>
                                                     <td>{item.category}</td>
                                                     <td>{item.subcategory}</td>
-                                                    <td>{item.price}</td>
+                                                    <td>&#8377;{item.price}</td>
                                                     <td>{item.quantity}</td>
                                                     <td>{item.image !== "/uploads/undefined" ?
                                                         <img className='product-image' src={"data:image/png;base64," + item.image}
                                                             alt="productImage" />
                                                         : <img className='product-image' src={ProductImage} alt="productImage" />}</td>
                                                     <td>
-                                                        <button className="btn btn-primary px-3 pb-2" onClick={(e) => {
+                                                        <button className="btn btn-primary px-3 pb-2" onClick={() => {
                                                             handleEditProduct(item._id);
-                                                            
                                                             setProductData(item);
-                                                            setId(item._id)
                                                         }}>
                                                             <FiEdit />
                                                         </button>
 
-                                                        <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() => DeleteProduct(item._id)}>
+                                                        <button className="btn btn-primary px-3 pb-2 ms-2"
+                                                            onClick={() => DeleteProduct(item._id)}>
                                                             <MdDelete />
                                                         </button>
                                                     </td>
-                                                    <Modal show={editproductModal === item._id ? true : false} onHide={() => setEditProductModal(false)}>
-                                                        <EditProduct getAllData={data} id={id} data={productdata} categoryList={categoryList} />
+                                                    <Modal show={editproductModal === item._id ? true : false}
+                                                        onHide={() => setEditProductModal(false)}>
+                                                        <EditProduct data={productdata} categoryList={categoryList} />
                                                     </Modal>
                                                 </tr>
                                             )

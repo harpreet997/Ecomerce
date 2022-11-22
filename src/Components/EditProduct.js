@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { editProduct } from "../postData/postdata";
 import { headers } from "../Header";
 
-const EditProduct = ({ getAllData, data, categoryList, id }) => {
+const EditProduct = ({ data, categoryList }) => {
     const [editproductdata, setEditProductData] = useState({
         name: data.name,
         price: data.price,

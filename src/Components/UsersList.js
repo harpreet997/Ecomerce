@@ -4,8 +4,11 @@ import '../styles/manageProduct.css';
 import Sidebar from './Sidebar';
 import { MdShoppingBag } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import { FiEdit } from 'react-icons/fi';
+import { MdDelete } from 'react-icons/md';
 import { getAllUsers } from '../getData/getdata';
 import { addUser } from '../postData/postdata';
+import { deleteUser } from '../postData/postdata';
 import Pagination from './Pagination';
 import EditUser from './EditUser';
 import { headers } from '../Header';
@@ -53,16 +56,34 @@ const UsersList = () => {
 
     const AddUser = (event) => {
         event.preventDefault();
-        
+        if (userdata.password.length < 6) {
+            alert("Password length must be greater or equal to 6")
+        }
+        else {
             addUser(userdata)
-                .then((response) => {
-                    alert(JSON.stringify(response.data.msg));
+                .then(() => {
+                    alert("User added successfully");
                     window.location.reload(false);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-        
+        }
+    }
+
+    const DeleteUser = (user_id) => {
+        const payload = {
+            id: user_id
+        }
+
+        deleteUser(payload, headers)
+            .then(() => {
+                alert("User deleted successfully");
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
@@ -101,7 +122,7 @@ const UsersList = () => {
                                         <Modal.Body>
                                             <label htmlFor="category" className='fs-5 mb-2'>Name</label>
                                             <input className="w-100 mb-2 input" type="text" name="name"
-                                                placeholder='Enter Name' 
+                                                placeholder='Enter Name'
                                                 onChange={handleUserDetails} required /><br />
                                             <label htmlFor="category" className='fs-5 mb-2'>Email Address</label>
                                             <input className="w-100 mb-2 input" type="email" name="email"
@@ -131,44 +152,54 @@ const UsersList = () => {
                         </div>
                         <div className="card mt-5 mb-3">
 
-                        <div className='scroll'>
-                            <table className="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Contact </th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {currentRecords.filter((val) => {
-                                        if (searchProduct === "") {
-                                            return val;
-                                        }
-                                        else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                            return val;
-                                        }
-                                    }).map((item) => {
-                                        return (
-                                            <tr>
-                                                <td className='action-width' style={{width: 250}}>{item.name}</td>
-                                                <td className='action-width'>{item.email}</td>
-                                                <td className='action-width'>{item.mobile}</td>
-                                                <td><button className="btn btn-primary" onClick={() => {
-                                                        handleEditUser(item._id)
-                                                        setUserData(item)
-                                                        setId(item._id)
-                                                    }}>Edit</button> | <button className="btn btn-primary">Delete</button></td>
-                                                <Modal show={edituserModal  === item._id ? true : false} onHide={() => setEditUserModal(false)}>
-                                                <EditUser data={userdata} id={id}/>                                   
-                                                </Modal>
-                                            </tr>
-                                        )
-                                    })}
+                            <div className='scroll'>
+                                <table className="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Contact </th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentRecords.filter((val) => {
+                                            if (searchProduct === "") {
+                                                return val;
+                                            }
+                                            else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td className='action-width' style={{ width: 250 }}>{item.name}</td>
+                                                    <td className='action-width'>{item.email}</td>
+                                                    <td className='action-width'>{item.mobile}</td>
+                                                    <td>
+                                                        <button className="btn btn-primary px-3 pb-2"
+                                                            onClick={() => {
+                                                                handleEditUser(item._id)
+                                                                setUserData(item)
+                                                                setId(item._id)
+                                                            }}>
+                                                            <FiEdit />
+                                                        </button>
+                                                        <button className="btn btn-primary px-3 pb-2 ms-2"
+                                                            onClick={() => DeleteUser(item._id)}>
+                                                            <MdDelete />
+                                                        </button>
+                                                    </td>
+                                                    <Modal show={edituserModal === item._id ? true : false}
+                                                        onHide={() => setEditUserModal(false)}>
+                                                        <EditUser data={userdata} id={id} />
+                                                    </Modal>
+                                                </tr>
+                                            )
+                                        })}
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <Pagination

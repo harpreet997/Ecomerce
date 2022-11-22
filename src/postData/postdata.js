@@ -29,6 +29,10 @@ export const editProduct = (formdata, headers) => {
     return axios.put(`${baseUrl}/api/editProduct`, formdata, { headers })
 } 
 
+export const editUser = (data, headers) => {
+    return axios.put(`${baseUrl}/api/updateProfile`, data, { headers })
+} 
+
 export const deleteCategory = (data, headers) => {
     return axios.delete(`${baseUrl}/api/deleteCategory/`, {data, headers: headers })
 }
@@ -39,4 +43,8 @@ export const deleteSubCategory = (data, headers) => {
 
 export const deleteProduct = (data, headers) => {
     return axios.delete(`${baseUrl}/api/deleteProduct/`, {data, headers: headers })
+}
+
+export const deleteUser = (data, headers) => {
+    return axios.delete(`${baseUrl}/api/deleteUser/`, {data, headers: headers })
 }

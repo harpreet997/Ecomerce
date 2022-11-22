@@ -10,7 +10,7 @@ export default function Login() {
     email: "",
     password: "",
   });
- 
+
   const navigate = useNavigate();
   const handleInput = (event) => {
     setData1({ ...data1, [event.target.name]: event.target.value });
@@ -34,13 +34,12 @@ export default function Login() {
             if (val.data.token) {
               localStorage.setItem("token", val.data.token);
               localStorage.setItem("refresh", val.data.refresh);
+              alert("Login Successfully");
+              navigate("/dashboard");
+              window.location.reload(false);
             }
+
           })
-        alert("Login Successfully");
-        navigate("/dashboard");
-        window.location.reload(false);
-
-
         handleReset();
       }
     } else {
@@ -94,6 +93,7 @@ export default function Login() {
                                 onChange={(event) => {
                                   handleInput(event);
                                 }}
+                                required
                               />
                               <p style={{ color: "red" }}>
                                 {showerror && data1.email === ""
@@ -115,6 +115,7 @@ export default function Login() {
                                 onChange={(event) => {
                                   handleInput(event);
                                 }}
+                                required
                               />
                               <p style={{ color: "red" }}>
                                 {showerror && data1.password === ""
