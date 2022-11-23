@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import LoginLogo from '../images/Login_Logo.PNG';
+import { login } from "../postData/postdata";
 import '../styles/login.css';
-import axios from "axios";
 
 export default function Login() {
   const [showerror, setShowerror] = useState(false);
@@ -28,8 +28,7 @@ export default function Login() {
           email: data1.email,
           password: data1.password,
         };
-        axios
-          .post("http://localhost:3500/api/login", payload)
+        login(payload)
           .then((val) => {
             if (val.data.token) {
               localStorage.setItem("token", val.data.token);

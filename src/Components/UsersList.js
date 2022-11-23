@@ -10,6 +10,7 @@ import { getAllUsers } from '../getData/getdata';
 import { addUser } from '../postData/postdata';
 import { deleteUser } from '../postData/postdata';
 import Pagination from './Pagination';
+import ProfileImage from '../images/Profile.png';
 import EditUser from './EditUser';
 import { headers } from '../Header';
 
@@ -94,7 +95,7 @@ const UsersList = () => {
                 <div className="row mt-4 mb-4">
                     <div className="col-md-10 col-lg-11">
                         <input className="w-100 ps-3 search-input" type="text" name="Search"
-                            placeholder='Enter your Category Name'
+                            placeholder='Enter User Name'
                             onChange={(e) => setSearchProduct(e.target.value)} />
                         <BsSearch className='search-icon' />
                     </div>
@@ -159,6 +160,7 @@ const UsersList = () => {
                                             <th scope="col">Name</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Contact </th>
+                                            <th scope="col">Image</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -170,12 +172,18 @@ const UsersList = () => {
                                             else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
                                                 return val;
                                             }
-                                        }).map((item) => {
+                                        }).map((item,i) => {
                                             return (
-                                                <tr>
+                                                <tr key={i}>
                                                     <td className='action-width' style={{ width: 250 }}>{item.name}</td>
                                                     <td className='action-width'>{item.email}</td>
                                                     <td className='action-width'>{item.mobile}</td>
+                                                    <td>
+                                                        {item.profileImage !== "" ?
+                                                        <img className='product-image' src={"data:image/png;base64," + item.profileImage}
+                                                            alt="productImage" />
+                                                            : <img className='product-image' src={ProfileImage} alt="productImage" />}
+                                                    </td>
                                                     <td>
                                                         <button className="btn btn-primary px-3 pb-2"
                                                             onClick={() => {

@@ -12,3 +12,7 @@ export const getAllCategory = () => {
 export const getAllUsers = (headers) => {
         return axios.get(`${baseUrl}/api/allUsers`, {headers});
     }
+
+export const getAllBanner = () => {
+        return axios.get(`${baseUrl}/api/getBanner`);
+    }
