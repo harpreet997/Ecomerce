@@ -1,39 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Pagination from './Pagination';
-import { getAllBanner } from '../getData/getdata';
-import { addBanner } from '../postData/postdata';
-import { deleteBanner } from '../postData/postdata';
+import { getAllPromoCode } from '../getData/getdata';
+import { addPromoCode, deletePromoCode} from '../postData/postdata';
 import { headers } from '../Header';
-import { MdShoppingBag } from 'react-icons/md';
+import { MdShoppingBag, MdDelete } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
-import { MdDelete } from 'react-icons/md';
 import { Button, Modal } from "react-bootstrap";
-import '../styles/manageProduct.css';
-import EditBanner from './EditBanner';
+import EditPromoCode from './EditPromoCode';
 import { baseUrl } from '../baseUrl';
+import '../styles/manageProduct.css';
 
 const PromoCode = () => {
-    const [bannerlist, setBannerlist] = useState([]);
-    const [bannerdata, setBannerData] = useState({ image: "" });
-    const [categoryModal, setCategoryModal] = useState(false);
-    const [editcategoryModal, setEditCategoryModal] = useState(false);
-    const [searchProduct, setSearchProduct] = useState('');
+    const [promocodeList, setPromocodeList] = useState([]);
+    const [promocodeData, setPromocodeData] = useState({ image: "" });
+    const [promocodeModal, setPromoCodeModal] = useState(false);
+    const [editPromoCodeModal, setEditPromoCodeModal] = useState(false);
+    const [searchPromoCode, setSearchPromoCode] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = bannerlist.slice(indexOfFirstRecord, indexOfLastRecord);
-    const nPages = Math.ceil(bannerlist.length / recordsPerPage)
+    const currentRecords = promocodeList.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(promocodeList.length / recordsPerPage)
     const formdata = new FormData();
-    const handleCategory = () => setCategoryModal(true);
-    const handleEditCategory = (id) => setEditCategoryModal(id);
+    const handlePromoCode = () => setPromoCodeModal(true);
+    const handleEditPromoCode = (id) => setEditPromoCodeModal(id);
 
     useEffect(() => {
-        getAllBanner()
+        getAllPromoCode()
             .then((response) => {
-                setBannerlist(response.data);
+                setPromocodeList(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -41,18 +39,18 @@ const PromoCode = () => {
     }, [])
 
     const handleImage = (event) => {
-        setBannerData({
-            ...bannerdata,
+        setPromocodeData({
+            ...promocodeData,
             image: event.target.files[0]
         })
     }
 
     const AddBanner = (event) => {
         event.preventDefault();
-        formdata.append('image', bannerdata.image)
-        addBanner(formdata, headers)
+        formdata.append('image', promocodeData.image)
+        addPromoCode(formdata, headers)
             .then(() => {
-                alert("Banner created successfully");
+                alert("PromoCode created successfully");
                 window.location.reload(false);
             })
             .catch((error) => {
@@ -66,9 +64,9 @@ const PromoCode = () => {
         const payload = {
             id: banner_id
         }
-        deleteBanner(payload, headers)
+        deletePromoCode(payload, headers)
             .then(() => {
-                alert("Banner deleted successfully");
+                alert("PromoCode deleted successfully");
                 window.location.reload(false);
             })
             .catch((error) => {
@@ -84,7 +82,7 @@ const PromoCode = () => {
                     <div className="col-md-10 col-lg-11">
                         <input className="w-100 ps-3 search-input" type="text" name="Search"
                             placeholder='Enter your Category Name'
-                            onChange={(e) => setSearchProduct(e.target.value)} />
+                            onChange={(e) => setSearchPromoCode(e.target.value)} />
                         <BsSearch className='search-icon' />
                     </div>
 
@@ -101,10 +99,10 @@ const PromoCode = () => {
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }}
-                                    onClick={handleCategory}
+                                    onClick={handlePromoCode}
                                     className="border border-warning w-100 py-2 fs-5"
                                 >ADD MORE</Button>
-                                <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
+                                <Modal show={promocodeModal} onHide={() => setPromoCodeModal(false)}>
                                     <Modal.Header className='modal-header' closeButton>
                                         <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>
                                             Add PromoCode</Modal.Title>
@@ -116,7 +114,7 @@ const PromoCode = () => {
                                                 onChange={handleImage} required /><br />
                                         </Modal.Body>
                                         <Modal.Footer>
-                                            <Button variant="secondary" onClick={() => setCategoryModal(false)}>
+                                            <Button variant="secondary" onClick={() => setPromoCodeModal(false)}>
                                                 Cancel
                                             </Button>
                                             <Button type="submit" variant="primary">
@@ -137,12 +135,7 @@ const PromoCode = () => {
                                 </thead>
                                 <tbody>
                                     {currentRecords.filter((val) => {
-                                        if (searchProduct === "") {
-                                            return val;
-                                        }
-                                        else if (val.category.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                            return val;
-                                        }
+                                        return val.category.toLowerCase().includes(searchPromoCode.toLowerCase())
                                     }).map((item, i) => {
                                         return (
                                             <tr key={i}>
@@ -152,8 +145,8 @@ const PromoCode = () => {
                                                 </td>
                                                 <td>
                                                     <button className="btn btn-primary px-3 pb-2" onClick={() => {
-                                                        handleEditCategory(item._id)
-                                                        setBannerData(item)
+                                                        handleEditPromoCode(item._id)
+                                                        setPromocodeData(item)
                                                     }}><FiEdit />
                                                     </button>
                                                     <button className="btn btn-primary px-3 pb-2 ms-2" onClick={() =>
@@ -161,8 +154,9 @@ const PromoCode = () => {
                                                         <MdDelete />
                                                     </button>
                                                 </td>
-                                                <Modal show={editcategoryModal === item._id ? true : false} onHide={() => setEditCategoryModal(false)}>
-                                                    <EditBanner data={bannerdata} />
+                                                <Modal show={editPromoCodeModal === item._id ? true : false} 
+                                                onHide={() => setEditPromoCodeModal(false)}>
+                                                    <EditPromoCode data={promocodeData} />
                                                 </Modal>
                                             </tr>
                                         )

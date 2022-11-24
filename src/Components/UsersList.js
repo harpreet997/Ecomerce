@@ -13,9 +13,10 @@ import Pagination from './Pagination';
 import ProfileImage from '../images/Profile.png';
 import EditUser from './EditUser';
 import { headers } from '../Header';
+import { baseUrl } from '../baseUrl';
 
 const UsersList = () => {
-    const [categoryList, setCategoryList] = useState([]);
+    const [userList, setUserList] = useState([]);
     const [userdata, setUserData] = useState(
         {
             name: "",
@@ -26,13 +27,13 @@ const UsersList = () => {
     );
     const [userModal, setUserModal] = useState(false);
     const [edituserModal, setEditUserModal] = useState(false);
-    const [searchProduct, setSearchProduct] = useState('');
+    const [searchUser, setSearchUser] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    var currentRecords = categoryList.slice(indexOfFirstRecord, indexOfLastRecord);
-    const nPages = Math.ceil(categoryList.length / recordsPerPage)
+    var currentRecords = userList.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(userList.length / recordsPerPage)
     const [id, setId] = useState();
 
     const handleUser = () => setUserModal(true);
@@ -41,7 +42,7 @@ const UsersList = () => {
     useEffect(() => {
         getAllUsers(headers)
             .then((response) => {
-                setCategoryList(response.data);
+                setUserList(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -96,7 +97,7 @@ const UsersList = () => {
                     <div className="col-md-10 col-lg-11">
                         <input className="w-100 ps-3 search-input" type="text" name="Search"
                             placeholder='Enter User Name'
-                            onChange={(e) => setSearchProduct(e.target.value)} />
+                            onChange={(e) => setSearchUser(e.target.value)} />
                         <BsSearch className='search-icon' />
                     </div>
 
@@ -121,19 +122,19 @@ const UsersList = () => {
                                     </Modal.Header>
                                     <form onSubmit={AddUser}>
                                         <Modal.Body>
-                                            <label htmlFor="category" className='fs-5 mb-2'>Name</label>
+                                            <label htmlFor="name" className='fs-5 mb-2'>Name</label>
                                             <input className="w-100 mb-2 input" type="text" name="name"
                                                 placeholder='Enter Name'
                                                 onChange={handleUserDetails} required /><br />
-                                            <label htmlFor="category" className='fs-5 mb-2'>Email Address</label>
+                                            <label htmlFor="email" className='fs-5 mb-2'>Email Address</label>
                                             <input className="w-100 mb-2 input" type="email" name="email"
                                                 placeholder='Enter Email'
                                                 onChange={handleUserDetails} required /><br />
-                                            <label htmlFor="category" className='fs-5 mb-2'>Contact Number</label>
+                                            <label htmlFor="mobile" className='fs-5 mb-2'>Contact Number</label>
                                             <input className="w-100 mb-2 input" type="tel" name="mobile" pattern="[0-9]{5}[0-9]{5}"
                                                 placeholder='1234567890'
                                                 onChange={handleUserDetails} required /><br />
-                                            <label htmlFor="category" className='fs-5 mb-2'>Password</label>
+                                            <label htmlFor="password" className='fs-5 mb-2'>Password</label>
                                             <input className="w-100 mb-2 input" type="password" name="password"
                                                 placeholder='Enter Password'
                                                 onChange={handleUserDetails} required /><br />
@@ -166,12 +167,7 @@ const UsersList = () => {
                                     </thead>
                                     <tbody>
                                         {currentRecords.filter((val) => {
-                                            if (searchProduct === "") {
-                                                return val;
-                                            }
-                                            else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                                return val;
-                                            }
+                                        return val.name.toLowerCase().includes(searchUser.toLowerCase())
                                         }).map((item,i) => {
                                             return (
                                                 <tr key={i}>
@@ -180,9 +176,9 @@ const UsersList = () => {
                                                     <td className='action-width'>{item.mobile}</td>
                                                     <td>
                                                         {item.profileImage !== "" ?
-                                                        <img className='product-image' src={"data:image/png;base64," + item.profileImage}
-                                                            alt="productImage" />
-                                                            : <img className='product-image' src={ProfileImage} alt="productImage" />}
+                                                        <img className='product-image' src={`${baseUrl}${item.profileImage}`}
+                                                            alt="profileImage" />
+                                                            : <img className='product-image' src={ProfileImage} alt="profileImage" />}
                                                     </td>
                                                     <td>
                                                         <button className="btn btn-primary px-3 pb-2"

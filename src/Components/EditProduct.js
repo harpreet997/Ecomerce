@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { editProduct } from "../postData/postdata";
 import { headers } from "../Header";
+import { baseUrl } from "../baseUrl";
 
 const EditProduct = ({ data, categoryList }) => {
     const [editproductdata, setEditProductData] = useState({
@@ -51,37 +52,34 @@ const EditProduct = ({ data, categoryList }) => {
 
     const UpdateProduct = (event) => {
         event.preventDefault();
-        if(editproductdata.quantity <=0)
-        {
+        if (editproductdata.quantity <= 0) {
             alert("Please fill valid quantity");
         }
-        else if(editproductdata.price <=0)
-        {
+        else if (editproductdata.price <= 0) {
             alert("Please fill valid price");
         }
-        else
-        {      
-        formdata.append('name', editproductdata.name)
-        formdata.append('price', editproductdata.price)
-        formdata.append('quantity', editproductdata.quantity)
-        formdata.append('features', editproductdata.features)
-        formdata.append('details', editproductdata.details)
-        formdata.append('specifications', editproductdata.specifications)
-        formdata.append('category', editproductdata.category)
-        formdata.append('subcategory', editproductdata.subcategory)
-        formdata.append('image', editproductdata.image)
-        formdata.append('id', editproductdata.id)
+        else {
+            formdata.append('name', editproductdata.name)
+            formdata.append('price', editproductdata.price)
+            formdata.append('quantity', editproductdata.quantity)
+            formdata.append('features', editproductdata.features)
+            formdata.append('details', editproductdata.details)
+            formdata.append('specifications', editproductdata.specifications)
+            formdata.append('category', editproductdata.category)
+            formdata.append('subcategory', editproductdata.subcategory)
+            formdata.append('image', editproductdata.image)
+            formdata.append('id', editproductdata.id)
         }
-        
-            editProduct(formdata, headers)
-                .then(() => {
-                    alert("Product updated successfully");
-                    window.location.reload(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        
+
+        editProduct(formdata, headers)
+            .then(() => {
+                alert("Product updated successfully");
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
 
     return (
@@ -101,7 +99,7 @@ const EditProduct = ({ data, categoryList }) => {
                     <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
                         value={editproductdata.subcategory} onChange={handleProductDetails} required>
                         <option value="">Select</option>
-                        {subcategoryList.map((item,i) => <option key={i} value={item} >{item}</option>)}
+                        {subcategoryList.map((item, i) => <option key={i} value={item} >{item}</option>)}
                     </select>
                     <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
                     <input className="w-100 mb-2 input" type="text" name="name" value={editproductdata.name}
@@ -110,9 +108,9 @@ const EditProduct = ({ data, categoryList }) => {
                     <label htmlFor="productImage" className='fs-5 mb-2'>Product Image</label><br />
                     <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
                         onChange={handleImage} /><br />
-                    
-                        <img className='product-image' src={"data:image/png;base64," + data.image}
-                            alt="productImage" />
+
+                    <img className='product-image' src={`${baseUrl}${data.image}`}
+                        alt="productImage" />
                     <br />
                     <label htmlFor="quantity" className='fs-5 mb-2'>Quantity</label><br />
                     <input className="w-100 mb-2 input" type="number" min={1} name="quantity" value={editproductdata.quantity}

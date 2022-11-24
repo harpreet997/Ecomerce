@@ -36,7 +36,7 @@ const Sidebar = () => {
                 >Promocode Management</Link>
             <Link className='fs-6 fw-bold' to="/banners"
                 >Menu Management</Link>
-            <Link className='fs-6 fw-bold' to="/banners"
+            <Link className='fs-6 fw-bold' to="/footer"
                 >CMS Management</Link>
             <Link className='fs-6 fw-bold' to="/banners"
                 >Payment Gateway</Link>

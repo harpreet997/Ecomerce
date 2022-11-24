@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { editUser } from "../postData/postdata";
 import { headers } from "../Header";
+import { baseUrl } from "../baseUrl";
 
 const EditUser = ({ data }) => {
 
@@ -59,23 +60,22 @@ const EditUser = ({ data }) => {
             </Modal.Header>
             <form onSubmit={UpdateUser}>
                 <Modal.Body>
-                    <label htmlFor="category" className='fs-5 mb-2'>Name</label>
+                    <label htmlFor="name" className='fs-5 mb-2'>Name</label>
                     <input className="w-100 mb-2 input" type="text" name="name"
                         placeholder='Enter Name' value={userdata.name}
                         onChange={handleUserDetails} required /><br />
-                    <label htmlFor="category" className='fs-5 mb-2'>Email Address</label>
+                    <label htmlFor="email" className='fs-5 mb-2'>Email Address</label>
                     <input className="w-100 mb-2 input" type="email" name="email"
                         placeholder='Enter Email' value={userdata.email} readOnly
                         onChange={handleUserDetails} required /><br />
-                    <label htmlFor="category" className='fs-5 mb-2'>Contact Number</label>
+                    <label htmlFor="mobile" className='fs-5 mb-2'>Contact Number</label>
                     <input className="w-100 mb-2 input" type="tel" name="mobile" pattern="[0-9]{5}[0-9]{5}"
                         placeholder='1234567890' value={userdata.mobile}
                         onChange={handleUserDetails} required /><br />
-                        <label htmlFor="productImage" className='fs-5 mb-2'>Profile Image</label><br />
+                        <label htmlFor="image" className='fs-5 mb-2'>Profile Image</label><br />
                     <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
-                        onChange={handleImage} /><br />
-                    
-                        <img className='product-image' src={"data:image/png;base64," + data.profileImage}
+                        onChange={handleImage} /><br />                   
+                        <img className='product-image' src={`${baseUrl}${data.profileImage}`}
                             alt="productImage" />
                 </Modal.Body>
                 <Modal.Footer>

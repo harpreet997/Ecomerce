@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Pagination from './Pagination';
 import { getAllBanner } from '../getData/getdata';
-import { addBanner } from '../postData/postdata';
-import { deleteBanner } from '../postData/postdata';
+import { addBanner, deleteBanner } from '../postData/postdata';
 import { headers } from '../Header';
-import { MdShoppingBag } from 'react-icons/md';
-import { BsSearch } from 'react-icons/bs';
-import { FiEdit } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md';
+import { FiEdit } from 'react-icons/fi';
 import { Button, Modal } from "react-bootstrap";
 import '../styles/manageProduct.css';
 import EditBanner from './EditBanner';
@@ -17,9 +14,8 @@ import { baseUrl } from '../baseUrl';
 const BannerList = () => {
     const [bannerlist, setBannerlist] = useState([]);
     const [bannerdata, setBannerData] = useState({ image: "" });
-    const [categoryModal, setCategoryModal] = useState(false);
-    const [editcategoryModal, setEditCategoryModal] = useState(false);
-    const [searchProduct, setSearchProduct] = useState('');
+    const [bannerModal, setBannerModal] = useState(false);
+    const [editbannerModal, setEditBannerModal] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
@@ -27,8 +23,8 @@ const BannerList = () => {
     const currentRecords = bannerlist.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(bannerlist.length / recordsPerPage)
     const formdata = new FormData();
-    const handleCategory = () => setCategoryModal(true);
-    const handleEditCategory = (id) => setEditCategoryModal(id);
+    const handleBanner = () => setBannerModal(true);
+    const handleEditBanner = (id) => setEditBannerModal(id);
 
     useEffect(() => {
         getAllBanner()
@@ -79,32 +75,19 @@ const BannerList = () => {
     return (
         <>
             <Sidebar />
-            <div className="content">
-                <div className="row mt-4 mb-4">
-                    <div className="col-md-10 col-lg-11">
-                        <input className="w-100 ps-3 search-input" type="text" name="Search"
-                            placeholder='Enter your Category Name'
-                            onChange={(e) => setSearchProduct(e.target.value)} />
-                        <BsSearch className='search-icon' />
-                    </div>
-
-                    <div className="col-md-2 col-lg-1">
-                        <MdShoppingBag className="shopping-bag" style={{ width: 50, height: 40 }} />
-                    </div>
-                </div>
-                <div className="card mb-4">
+            <div className="content">               
+                <div className="card mt-4 mb-4">
                     <div className="card-body">
                         <div className="row">
                             <div className="col-xs-6 col-md-9 col-lg-10">
                                 <h4>Add Banner</h4>
-
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
                                 <Button style={{ marginLeft: 0, backgroundColor: "orange", fontWeight: "bold" }}
-                                    onClick={handleCategory}
+                                    onClick={handleBanner}
                                     className="border border-warning w-100 py-2 fs-5"
                                 >ADD MORE</Button>
-                                <Modal show={categoryModal} onHide={() => setCategoryModal(false)}>
+                                <Modal show={bannerModal} onHide={() => setBannerModal(false)}>
                                     <Modal.Header className='modal-header' closeButton>
                                         <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>
                                             Add Banner</Modal.Title>
@@ -116,7 +99,7 @@ const BannerList = () => {
                                                 onChange={handleImage} required /><br />
                                         </Modal.Body>
                                         <Modal.Footer>
-                                            <Button variant="secondary" onClick={() => setCategoryModal(false)}>
+                                            <Button variant="secondary" onClick={() => setBannerModal(false)}>
                                                 Cancel
                                             </Button>
                                             <Button type="submit" variant="primary">
@@ -136,14 +119,7 @@ const BannerList = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentRecords.filter((val) => {
-                                        if (searchProduct === "") {
-                                            return val;
-                                        }
-                                        else if (val.category.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                            return val;
-                                        }
-                                    }).map((item, i) => {
+                                    {currentRecords.map((item, i) => {
                                         return (
                                             <tr key={i}>
                                                 <td className='action-width' style={{ width: 500 }}>
@@ -152,7 +128,7 @@ const BannerList = () => {
                                                 </td>
                                                 <td>
                                                     <button className="btn btn-primary px-3 pb-2" onClick={() => {
-                                                        handleEditCategory(item._id)
+                                                        handleEditBanner(item._id)
                                                         setBannerData(item)
                                                     }}><FiEdit />
                                                     </button>
@@ -161,7 +137,7 @@ const BannerList = () => {
                                                         <MdDelete />
                                                     </button>
                                                 </td>
-                                                <Modal show={editcategoryModal === item._id ? true : false} onHide={() => setEditCategoryModal(false)}>
+                                                <Modal show={editbannerModal === item._id ? true : false} onHide={() => setEditBannerModal(false)}>
                                                     <EditBanner data={bannerdata} />
                                                 </Modal>
                                             </tr>

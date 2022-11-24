@@ -13,6 +13,7 @@ import ProductImage from '../images/IphonePro.jpg';
 import '../styles/manageProduct.css';
 import EditProduct from './EditProduct';
 import { headers } from '../Header';
+import { baseUrl } from '../baseUrl';
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -178,24 +179,13 @@ const Product = () => {
                                             <select className="w-100 mb-2 input" name="category" id="category"
                                                 onChange={handleCategorySelect} required>
                                                 <option value="">Select</option>
-                                                {categoryList.map((item) => {
-                                                    return (
-                                                        <option value={item.category} >{item.category}</option>
-                                                    )
-
-                                                })}
+                                                {categoryList.map((item) => (<option value={item.category} >{item.category}</option>))}
                                             </select>
                                             <label htmlFor="subcategory" className='fs-5 mb-2'>Select Sub Category</label>
                                             <select className="w-100 mb-2 input" name="subcategory" id="subcategory"
                                                 onChange={handleProductDetails} required>
                                                 <option value="">Select</option>
-                                                {subcategoryList.map((item, i) => {
-                                                    for (i = 0; i < item.length; i++) {
-                                                        return (
-                                                            <option value={item} >{item}</option>
-                                                        )
-                                                    }
-                                                })}
+                                                {subcategoryList.map(item => (<option value={item} >{item}</option>))}
                                             </select>
                                             <label htmlFor="productName" className='fs-5 mb-2'>Product Name</label><br />
                                             <input className="w-100 mb-2 input" type="text" name="name" placeholder='Enter Product name'
@@ -250,12 +240,7 @@ const Product = () => {
                                     </thead>
                                     <tbody>
                                         {currentRecords.filter((val) => {
-                                            if (searchProduct === "") {
-                                                return val;
-                                            }
-                                            else if (val.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                                                return val;
-                                            }
+                                        return val.name.toLowerCase().includes(searchProduct.toLowerCase())
                                         }).map((item, i) => {
                                             return (
                                                 <tr key={i}>
@@ -265,7 +250,7 @@ const Product = () => {
                                                     <td>&#8377;{item.price}</td>
                                                     <td>{item.quantity}</td>
                                                     <td>{item.image !== "/uploads/undefined" ?
-                                                        <img className='product-image' src={"data:image/png;base64," + item.image}
+                                                        <img className='product-image' src={`${baseUrl}${item.image}`}
                                                             alt="productImage" />
                                                         : <img className='product-image' src={ProductImage} alt="productImage" />}</td>
                                                     <td>
