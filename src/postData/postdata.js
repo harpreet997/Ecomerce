@@ -30,7 +30,11 @@ export const addPromoCode = (data, headers) => {
 } 
 
 export const addFooter = (data, headers) => {
-    return axios.post(`${baseUrl}/api/insertBanner`, data, {headers})
+    return axios.post(`${baseUrl}/api/addFooter`, data, {headers})
+} 
+
+export const addMenu = (data, headers) => {
+    return axios.post(`${baseUrl}/api/addMenu`, data, {headers})
 } 
 
 export const editCategory = (data, headers) => {
@@ -58,7 +62,11 @@ export const editPromocode = (data, headers) => {
 } 
 
 export const editFooter = (data, headers) => {
-    return axios.put(`${baseUrl}/api/updateBanner`, data, { headers })
+    return axios.post(`${baseUrl}/api/editFooter`, data, { headers })
+}
+
+export const editMenu = (data, headers) => {
+    return axios.post(`${baseUrl}/api/editFooter`, data, { headers })
 }
 
 export const deleteCategory = (data, headers) => {
@@ -86,5 +94,9 @@ export const deletePromoCode = (data, headers) => {
 }
 
 export const deleteFooter = (data, headers) => {
-    return axios.delete(`${baseUrl}/api/deleteBanner/`, {data, headers: headers })
+    return axios.delete(`${baseUrl}/api/deleteFooter/`, {data, headers: headers })
+}
+
+export const deleteMenu = (data, headers) => {
+    return axios.delete(`${baseUrl}/api/deleteFooter/`, {data, headers: headers })
 }

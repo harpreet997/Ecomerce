@@ -5,8 +5,9 @@ import { headers } from "../Header";
 
 const EditFooter = ({ data }) => {
     const [editFooterData, setEditFooterData] = useState({
-        old: data.category,
-        new: ""
+        title: data.title,
+        matter: data.matter,
+        id: data._id
     })
     const handleFooterDetails = (event) => {
         setEditFooterData({
@@ -39,14 +40,13 @@ const EditFooter = ({ data }) => {
             </Modal.Header>
             <form onSubmit={UpdateFooter}>
                 <Modal.Body>
-                <label htmlFor="oldcategory" className='fs-5 mb-2'>Old Category</label>
-                    <input className="w-100 mb-2 input" type="text" name="old" value={editFooterData.old} readOnly
+                <label htmlFor="oldcategory" className='fs-5 mb-2'>Title</label>
+                    <input className="w-100 mb-2 input" type="text" name="title" value={editFooterData.title}
                         placeholder='Enter Category' onChange={handleFooterDetails}
-                        required /><br />
-                    <label htmlFor="newcategory" className='fs-5 mb-2'>New Category</label>
-                    <input className="w-100 mb-2 input" type="text" name="new" 
-                        placeholder='Enter Category' onChange={handleFooterDetails}
-                        required /><br />
+                        required readOnly/><br />
+                    <label htmlFor="newcategory" className='fs-5 mb-2'>Description</label>
+                    <textarea className="mb-2 textarea" name="matter" id="matter" cols="60" rows="5"
+                    onChange={handleFooterDetails} value={editFooterData.matter} placeholder='Enter Description' required></textarea>
 
                 </Modal.Body>
                 <Modal.Footer>

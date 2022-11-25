@@ -11,7 +11,7 @@ import { FiEdit } from 'react-icons/fi';
 import { Button, Modal } from "react-bootstrap";
 import '../styles/manageProduct.css';
 
-const Footer = () => {
+const Menu = () => {
     const [footerList, setFooterList] = useState([]);
     const [footerdata, setFooterData] = useState({
         title: "",
@@ -100,7 +100,7 @@ const Footer = () => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-xs-6 col-md-9 col-lg-10">
-                                <h4>Add Footer</h4>
+                                <h4>Add Menu</h4>
 
                             </div>
                             <div className="col-xs-6 col-md-3 col-lg-2">
@@ -111,7 +111,7 @@ const Footer = () => {
                                 <Modal show={footerModal} onHide={() => setFooterModal(false)}>
                                     <Modal.Header className='modal-header' closeButton>
                                         <Modal.Title className="text-white" style={{ paddingLeft: 150 }}>
-                                            Add Footer</Modal.Title>
+                                            Add Menu</Modal.Title>
                                     </Modal.Header>
                                     <form onSubmit={AddFooter}>
                                         <Modal.Body>
@@ -128,7 +128,7 @@ const Footer = () => {
                                                 Cancel
                                             </Button>
                                             <Button type="submit" variant="primary">
-                                                Add Footer
+                                                Add Menu
                                             </Button>
                                         </Modal.Footer>
                                     </form>
@@ -184,4 +184,4 @@ const Footer = () => {
     );
 }
 
-export default Footer;
+export default Menu;

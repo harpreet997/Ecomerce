@@ -22,7 +22,8 @@ const UsersList = () => {
             name: "",
             email: "",
             mobile: "",
-            password: ""
+            password: "",
+            image: ""
         }
     );
     const [userModal, setUserModal] = useState(false);
@@ -35,6 +36,7 @@ const UsersList = () => {
     var currentRecords = userList.slice(indexOfFirstRecord, indexOfLastRecord);
     const nPages = Math.ceil(userList.length / recordsPerPage)
     const [id, setId] = useState();
+    const formdata = new FormData();
 
     const handleUser = () => setUserModal(true);
     const handleEditUser = (id) => setEditUserModal(id);
@@ -62,7 +64,12 @@ const UsersList = () => {
             alert("Password length must be greater or equal to 6")
         }
         else {
-            addUser(userdata)
+            formdata.append('name', userdata.name)
+            formdata.append('email', userdata.email)
+            formdata.append('mobile', userdata.mobile)
+            formdata.append('password', userdata.password)
+            formdata.append('image', userdata.image)
+            addUser(formdata)
                 .then(() => {
                     alert("User added successfully");
                     window.location.reload(false);
@@ -71,6 +78,13 @@ const UsersList = () => {
                     console.log(error);
                 })
         }
+    }
+
+    const handleImage = (event) => {
+        setUserData({
+            ...userdata,
+            image: event.target.files[0]
+        })
     }
 
     const DeleteUser = (user_id) => {
@@ -138,7 +152,9 @@ const UsersList = () => {
                                             <input className="w-100 mb-2 input" type="password" name="password"
                                                 placeholder='Enter Password'
                                                 onChange={handleUserDetails} required /><br />
-
+                                            <label htmlFor="productImage" className='fs-5 mb-2'>Profile Image</label><br />
+                                            <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image' 
+                                            onChange={handleImage} required /><br />
                                         </Modal.Body>
                                         <Modal.Footer>
                                             <Button variant="secondary" onClick={() => setUserModal(false)}>

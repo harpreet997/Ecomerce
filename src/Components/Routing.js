@@ -10,6 +10,7 @@ import UsersList from './UsersList';
 import BannerList from './BannerList';
 import PromoCode from './PromoCode';
 import Footer from './Footer';
+import Menu from './Menu';
 const Routing = () => {
 
     let headers = {
@@ -27,6 +28,7 @@ const Routing = () => {
             <Route path="/banners" element={headers.authorization === "null" ? <Unauthorize/> :<BannerList/>} />
             <Route path="/promo" element={headers.authorization === "null" ? <Unauthorize/> :<PromoCode/>} />
             <Route path="/footer" element={headers.authorization === "null" ? <Unauthorize/> :<Footer/>} />
+            <Route path="/menu" element={headers.authorization === "null" ? <Unauthorize/> :<Menu/>} />
             <Route path="*" element={<PageNotFound/>} />        
         </Routes>
     );
