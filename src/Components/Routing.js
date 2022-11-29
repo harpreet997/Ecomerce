@@ -11,6 +11,7 @@ import BannerList from './BannerList';
 import PromoCode from './PromoCode';
 import Footer from './Footer';
 import Menu from './Menu';
+import ManageProduct from './ManageProduct';
 const Routing = () => {
 
     let headers = {
@@ -21,6 +22,7 @@ const Routing = () => {
         <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={headers.authorization === "null" ? <Unauthorize/> : <Dashboard/> } />
+            <Route path="/manage-product" element={headers.authorization === "null" ? <Unauthorize/> : <ManageProduct/> } />
             <Route path="/category" element={headers.authorization === "null" ? <Unauthorize/> :<Category/>} />
             <Route path="/subcategory" element={headers.authorization === "null" ? <Unauthorize/> :<SubCategory/>} />
             <Route path="/product" element={headers.authorization === "null" ? <Unauthorize/> :<Product/>} />

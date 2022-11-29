@@ -133,7 +133,7 @@ const PromoCode = () => {
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {/* <tbody>
                                     {currentRecords.filter((val) => {
                                         return val.category.toLowerCase().includes(searchPromoCode.toLowerCase())
                                     }).map((item, i) => {
@@ -161,7 +161,7 @@ const PromoCode = () => {
                                             </tr>
                                         )
                                     })}
-                                </tbody>
+                                </tbody> */}
                             </table>
                         </div>
                         <Pagination

@@ -21,10 +21,10 @@
   color: white;
 }
 
-.sidebar a:hover:not(.active) {
+/* .sidebar a:hover:not(.active) {
   background-color: #555;
   color: white;
-}
+} */
 
 div.content {
   margin-left: 200px;
@@ -152,3 +152,10 @@ div.content {
     overflow-x: scroll !important;
   }
 }
+
+.logout{
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+

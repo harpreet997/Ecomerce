@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/manageProduct.css';
 import HeaderLogo from '../images/Logo.PNG';
 
@@ -7,43 +7,48 @@ import HeaderLogo from '../images/Logo.PNG';
 const Sidebar = () => {
     const [showManage, setShowManage] = useState(true);
     const navigate = useNavigate();
+
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         alert("Loging Out");
         navigate("/");
     }
 
-    
+
     return (
         <div className="sidebar">
             <img src={HeaderLogo} alt="HeaderLogo" className='img-width' />
-            <Link className="active fs-6 fw-bold" to="/dashboard"
-                >Dashboard</Link>
-            <Link className='fs-6 fw-bold' to="/dashboard"
-                onClick={() => setShowManage(!showManage)}>Manage Products</Link>
+            <NavLink className="fs-6 fw-bold" to="/dashboard"
+            >Dashboard</NavLink>
+            <NavLink className='fs-6 fw-bold' to="/manage-product"
+                onClick={() => setShowManage(!showManage)}>Manage Products</NavLink>
             {showManage ? (
                 <>
-                    <Link to="/category" className='fs-6'>Add Category</Link>
-                    <Link to="/subcategory" className='fs-6'>Add Sub Category</Link>
-                    <Link to="/product" className='fs-6'>Add Product</Link>
+                    <NavLink to="/category" className='fs-6'
+                    >Add Category</NavLink>
+                    <NavLink to="/subcategory" className='fs-6'
+                    >Add Sub Category</NavLink>
+                    <NavLink to="/product" className='fs-6'
+                    >Add Product</NavLink>
                 </>
             ) : null}
-            <Link className='fs-6 fw-bold' to="/users"
-                >User Management</Link>
-            <Link className='fs-6 fw-bold' to="/banners"
-                >Banner Management</Link>
-            <Link className='fs-6 fw-bold' to="/promo"
-                >Promocode Management</Link>
-            <Link className='fs-6 fw-bold' to="/menu"
-                >Menu Management</Link>
-            <Link className='fs-6 fw-bold' to="/footer"
-                >CMS Management</Link>
-            <Link className='fs-6 fw-bold' to="/banners"
-                >Payment Gateway</Link>
-            <Link className='fs-6 fw-bold' to="/banners"
-                >Reports</Link>
-            <Link to="/" style={{ fontWeight: "bold", fontSize: 15, cursor: "pointer" }}
-                onClick={handleLogout}>Logout</Link>
+            <NavLink to="/users" activeClassName="menu-color" className='fs-6 fw-bold'
+            >User Management</NavLink>
+            <NavLink to="/banners" activeClassName="menu-color" className='fs-6 fw-bold'
+            >Banner Management</NavLink>
+            <NavLink to="/promo" className='fs-6 fw-bold'
+            >Promocode Management</NavLink>
+            <NavLink to="/menu" className='fs-6 fw-bold'
+            >Menu Management</NavLink>
+            <NavLink to="/footer" className='fs-6 fw-bold'
+            >CMS Management</NavLink>
+            <NavLink to="/payment" className='fs-6 fw-bold'
+            >Payment Gateway</NavLink>
+            <NavLink className='fs-6 fw-bold' to="/reports"
+            >Reports</NavLink>
+            <NavLink to="/" className='logout'
+                onClick={handleLogout}>Logout</NavLink>
 
         </div>
 
