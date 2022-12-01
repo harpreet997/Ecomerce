@@ -16,13 +16,18 @@ const Sidebar = () => {
     }
 
 
+    const handleManage = () => {
+        setShowManage(!showManage)
+        
+    }
+
     return (
         <div className="sidebar">
             <img src={HeaderLogo} alt="HeaderLogo" className='img-width' />
             <NavLink className="fs-6 fw-bold" to="/dashboard"
             >Dashboard</NavLink>
             <NavLink className='fs-6 fw-bold' to="/manage-product"
-                onClick={() => setShowManage(!showManage)}>Manage Products</NavLink>
+                onClick={handleManage}>Manage Products</NavLink>
             {showManage ? (
                 <>
                     <NavLink to="/category" className='fs-6'

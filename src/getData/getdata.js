@@ -18,7 +18,7 @@ export const getAllBanner = () => {
 }
 
 export const getAllPromoCode = () => {
-    return axios.get(`${baseUrl}/api/getBanner`);
+    return axios.get(`${baseUrl}/api/listPromoCode`);
 }
 
 export const getAllFooter = () => {

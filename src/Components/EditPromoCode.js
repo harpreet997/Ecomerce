@@ -2,27 +2,28 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { editPromocode } from "../postData/postdata";
 import { headers } from "../Header";
-import { baseUrl } from "../baseUrl";
 
 const EditPromoCode = ({ data }) => {
     const [editPromoCode, setEditPromoCode] = useState({
-        image: data.image,
+        coupon: data.coupon,
+        percentage: data.percentage,
+        maxAmount: data.maxAmount,
+        expiry: data.expiry.substring(0, 10),
         id: data._id
     })
-    const formdata = new FormData();
 
-    const handleImage = (event) => {
+
+    const handlePromoDetails = (event) => {
         setEditPromoCode({
             ...editPromoCode,
-            image: event.target.files[0]
+            [event.target.name]: event.target.value
         })
     }
 
     const UpdatePromoCode = (event) => {
         event.preventDefault();
-        formdata.append('image', editPromoCode.image)
-        formdata.append('_id', editPromoCode.id)
-        editPromocode(formdata, headers)
+
+        editPromocode(editPromoCode, headers)
             .then(() => {
                 alert("Promocode updated sucessfully");
                 window.location.reload(false);
@@ -43,11 +44,23 @@ const EditPromoCode = ({ data }) => {
             </Modal.Header>
             <form onSubmit={UpdatePromoCode}>
                 <Modal.Body>
-                    <label htmlFor="bannerImage" className='fs-5 mb-2'>New Banner</label>
-                    <input className="w-100 mb-2" type="file" name="image" accept="image/*" placeholder='Select Image'
-                        onChange={handleImage} /><br />
-                    <img className='product-image' src={`${baseUrl}${data.image}`}
-                        alt="bannerImage" />
+                    <label htmlFor="productName" className='fs-5 mb-2'>PromoCode</label><br />
+                    <input className="w-100 mb-2 input" type="text" name="coupon"
+                        value={editPromoCode.coupon} placeholder='Enter PromoCode'
+                        onChange={handlePromoDetails} readOnly /><br />
+                    <label htmlFor="quantity" className='fs-5 mb-2'>Percentage</label><br />
+                    <input className="w-100 mb-2 input" type="number" min={1} step={0.1} name="percentage"
+                        value={editPromoCode.percentage}
+                        placeholder='Enter Percentage'
+                        onChange={handlePromoDetails} required /><br />
+                    <label htmlFor="quantity" className='fs-5 mb-2'>Amount</label><br />
+                    <input className="w-100 mb-2 input" type="number" min={1} name="maxAmount"
+                        value={editPromoCode.maxAmount} placeholder='Enter Amount'
+                        onChange={handlePromoDetails} required /><br />
+                    <label htmlFor="productName" className='fs-5 mb-2'>Expire Date</label><br />
+                    <input className="w-100 mb-2 input" type="date" name="expiry"
+                        value={editPromoCode.expiry} placeholder='Enter Expire Date'
+                        onChange={handlePromoDetails} required /><br />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

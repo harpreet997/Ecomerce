@@ -26,7 +26,7 @@ export const addBanner = (data, headers) => {
 } 
 
 export const addPromoCode = (data, headers) => {
-    return axios.post(`${baseUrl}/api/insertBanner`, data, {headers})
+    return axios.post(`${baseUrl}/api/createPromoCode`, data, {headers})
 } 
 
 export const addFooter = (data, headers) => {
@@ -58,7 +58,7 @@ export const editBanner = (data, headers) => {
 } 
 
 export const editPromocode = (data, headers) => {
-    return axios.put(`${baseUrl}/api/updateBanner`, data, { headers })
+    return axios.put(`${baseUrl}/api/editPromoCode`, data, { headers })
 } 
 
 export const editFooter = (data, headers) => {
@@ -90,7 +90,7 @@ export const deleteBanner = (data, headers) => {
 }
 
 export const deletePromoCode = (data, headers) => {
-    return axios.delete(`${baseUrl}/api/deleteBanner/`, {data, headers: headers })
+    return axios.delete(`${baseUrl}/api/deletePromoCode/`, {data, headers: headers })
 }
 
 export const deleteFooter = (data, headers) => {
